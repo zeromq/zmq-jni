@@ -27,12 +27,25 @@ public final class ZMQ {
      * Destroys the ØMQ context
      */
     public static native boolean zmq_ctx_destroy (long context);
+
+    public static native long zmq_socket (long context, int type);
+
+    public static native boolean zmq_bind (long socket, String endpoint);
+
+    public static native boolean zmq_connect (long socket, String endpoint);
+
+    public static native boolean zmq_close (long socket);
     
     public static void main(String[] args) {
         System.out.println("ZeroMQ Version: " + version());
         long ptr = zmq_ctx_new();
-        zmq_ctx_set(ptr, 1, 2);
+        zmq_ctx_set(ptr, 1, 1);
         int value = zmq_ctx_get(ptr, 1);
+
+        // push socket
+        long sock = zmq_socket(ptr, 8);
+        System.out.println("Socket bound: " + zmq_bind(sock, "tcp://*:12345"));
+        System.out.println("Socket closed?: " + zmq_close(sock));
         System.out.println("IO_THREADS: " + value);
         System.out.println("Destroyed: " + zmq_ctx_destroy(ptr));
     }

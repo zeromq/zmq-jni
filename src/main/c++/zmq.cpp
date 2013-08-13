@@ -12,7 +12,7 @@ JNIEXPORT
 jlong JNICALL
 Java_org_zeromq_ZMQ_zmq_1ctx_1new  (JNIEnv *env, jclass c)
 {
-    void * context = zmq_ctx_new();
+    void *context = zmq_ctx_new();
     if(context)
         return (long) context;
     return -1;
@@ -44,3 +44,48 @@ Java_org_zeromq_ZMQ_zmq_1ctx_1destroy (JNIEnv *env, jclass c, jlong context)
         return JNI_TRUE;
     return JNI_FALSE;
 }
+
+JNIEXPORT
+jlong JNICALL
+Java_org_zeromq_ZMQ_zmq_1socket (JNIEnv *env, jclass c, jlong context, jint type)
+{
+    void *socket = zmq_socket((void *) context, type);
+    if(socket)
+        return (long) socket;
+    return -1;
+}
+
+JNIEXPORT
+jboolean JNICALL
+Java_org_zeromq_ZMQ_zmq_1bind (JNIEnv *env, jclass c, jlong socket, jstring endpoint)
+{
+    const char *ep = env->GetStringUTFChars (endpoint, NULL);
+    int rc = zmq_bind ((void *) socket, ep);
+    env->ReleaseStringUTFChars(endpoint, ep);
+    if(rc == 0)
+        return JNI_TRUE;
+    return JNI_FALSE;
+}
+
+JNIEXPORT
+jboolean JNICALL
+Java_org_zeromq_ZMQ_zmq_1connect (JNIEnv *env, jclass c, jlong socket, jstring endpoint)
+{
+    const char *ep = env->GetStringUTFChars (endpoint, NULL);
+    int rc = zmq_connect ((void *) socket, ep);
+    env->ReleaseStringUTFChars(endpoint, ep);
+    if(rc == 0)
+        return JNI_TRUE;
+    return JNI_FALSE;
+}
+
+JNIEXPORT
+jboolean JNICALL
+Java_org_zeromq_ZMQ_zmq_1close (JNIEnv *env, jclass c, jlong socket)
+{
+    int rc = zmq_close((void *) socket);
+    if(rc == 0)
+        return JNI_TRUE;
+    return JNI_FALSE;
+}
+
