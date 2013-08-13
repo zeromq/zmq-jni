@@ -35,18 +35,27 @@ public final class ZMQ {
     public static native boolean zmq_connect (long socket, String endpoint);
 
     public static native boolean zmq_close (long socket);
+
+    public static native int zmq_errno ();
+
+    public static native String zmq_strerror (int errnum);
     
     public static void main(String[] args) {
         System.out.println("ZeroMQ Version: " + version());
         long ptr = zmq_ctx_new();
         zmq_ctx_set(ptr, 1, 1);
         int value = zmq_ctx_get(ptr, 1);
-
+        System.out.println("IO_THREADS: " + value);
         // push socket
         long sock = zmq_socket(ptr, 8);
         System.out.println("Socket bound: " + zmq_bind(sock, "tcp://*:12345"));
         System.out.println("Socket closed?: " + zmq_close(sock));
-        System.out.println("IO_THREADS: " + value);
+        // fail socket
+        System.out.println("Socket fail: " + zmq_connect(sock, "tcp://*:12346"));
+        int errnum = zmq_errno();
+        System.out.println("Errno: " + errnum);
+        String errstr = zmq_strerror(errnum);
+        System.out.println("String err: " + errstr);
         System.out.println("Destroyed: " + zmq_ctx_destroy(ptr));
     }
 }

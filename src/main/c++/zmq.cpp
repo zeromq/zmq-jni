@@ -89,3 +89,18 @@ Java_org_zeromq_ZMQ_zmq_1close (JNIEnv *env, jclass c, jlong socket)
     return JNI_FALSE;
 }
 
+JNIEXPORT
+jint JNICALL
+Java_org_zeromq_ZMQ_zmq_1errno (JNIEnv *env, jclass c)
+{
+    return zmq_errno();
+}
+
+JNIEXPORT
+jstring JNICALL
+Java_org_zeromq_ZMQ_zmq_1strerror (JNIEnv *env, jclass c, jint errnum)
+{
+    const char *str = zmq_strerror (errnum);
+    return env->NewStringUTF(str);
+}
+
