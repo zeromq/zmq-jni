@@ -32,8 +32,12 @@ public final class ZMQ {
 
     public static native boolean zmq_bind (long socket, String endpoint);
 
+    public static native boolean zmq_unbind (long socket, String endpoint);
+
     public static native boolean zmq_connect (long socket, String endpoint);
 
+    public static native boolean zmq_disconnect (long socket, String endpoint);
+    
     public static native boolean zmq_close (long socket);
 
     public static native int zmq_errno ();
