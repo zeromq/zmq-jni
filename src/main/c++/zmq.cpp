@@ -35,3 +35,12 @@ Java_org_zeromq_ZMQ_zmq_1ctx_1get (JNIEnv *env, jclass c, jlong context, jint va
     return zmq_ctx_get((void *) context, value);
 }
 
+JNIEXPORT
+jboolean JNICALL
+Java_org_zeromq_ZMQ_zmq_1ctx_1destroy (JNIEnv *env, jclass c, jlong context)
+{
+    int rc = zmq_ctx_destroy((void *) context);
+    if(rc == 0)
+        return JNI_TRUE;
+    return JNI_FALSE;
+}

@@ -22,6 +22,11 @@ public final class ZMQ {
     public static native boolean zmq_ctx_set(long context, int name, int value);
 
     public static native int zmq_ctx_get(long context, int name);
+
+    /**
+     * Destroys the ØMQ context
+     */
+    public static native boolean zmq_ctx_destroy (long context);
     
     public static void main(String[] args) {
         System.out.println("ZeroMQ Version: " + version());
@@ -29,5 +34,6 @@ public final class ZMQ {
         zmq_ctx_set(ptr, 1, 2);
         int value = zmq_ctx_get(ptr, 1);
         System.out.println("IO_THREADS: " + value);
+        System.out.println("Destroyed: " + zmq_ctx_destroy(ptr));
     }
 }
