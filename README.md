@@ -14,6 +14,20 @@ will underpin libraries such as: [jzmq](https://github.com/zeromq/jzmq),
 [cljzmq](https://github.com/zeromq/cljzmq) and
 [zmq-async](https://github.com/lynaghk/zmq-async).
 
+## Building
+
+Currently I lack a proper build system but this is how I do it manually:
+
+```bash
+mvn compile
+mkdir -p target/include
+cd target/classes
+javah org.zeromq.jni.ZMQ
+mv org_zeromq_jni_ZMQ.h ../include
+cd ../..
+make
+```
+
 ## TODO
 
 * Settle on a build system (e.g. grade, maven, etc.)
