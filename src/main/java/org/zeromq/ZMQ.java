@@ -43,6 +43,10 @@ public final class ZMQ {
     public static native int zmq_errno ();
 
     public static native String zmq_strerror (int errnum);
+
+    public static native int zmq_send (long socket, byte[] buf, int offset, int len, int flags);
+
+    public static native int zmq_recv (long socket, byte[] buf, int offset, int len, int flags);
     
     public static void main(String[] args) {
         System.out.println("ZeroMQ Version: " + version());
@@ -51,15 +55,18 @@ public final class ZMQ {
         int value = zmq_ctx_get(ptr, 1);
         System.out.println("IO_THREADS: " + value);
         // push socket
-        long sock = zmq_socket(ptr, 8);
-        System.out.println("Socket bound: " + zmq_bind(sock, "tcp://*:12345"));
-        System.out.println("Socket closed?: " + zmq_close(sock));
-        // fail socket
-        System.out.println("Socket fail: " + zmq_connect(sock, "tcp://*:12346"));
-        int errnum = zmq_errno();
-        System.out.println("Errno: " + errnum);
-        String errstr = zmq_strerror(errnum);
-        System.out.println("String err: " + errstr);
+        long pull = zmq_socket(ptr, 7);
+        System.out.println("Socket bound?: " + zmq_bind(pull, "tcp://*:12345"));
+        long push = zmq_socket(ptr, 8);
+        System.out.println("Socket connected?: " + zmq_connect(push, "tcp://localhost:12345"));
+
+        System.out.println("Sending message: " + zmq_send(push, "Hello".getBytes(), 0, 5, 0));
+        byte [] buf = new byte[5];
+        zmq_recv(pull, buf, 0, 5, 0);
+        System.out.println("Receiving message: " + new String(buf));
+        
+        System.out.println("PULL closed?: " + zmq_close(pull));
+        System.out.println("PUSH closed?: " + zmq_close(push));
         System.out.println("Destroyed: " + zmq_ctx_destroy(ptr));
     }
 }

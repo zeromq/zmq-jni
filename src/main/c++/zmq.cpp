@@ -129,3 +129,21 @@ Java_org_zeromq_ZMQ_zmq_1strerror (JNIEnv *env, jclass c, jint errnum)
     return env->NewStringUTF(str);
 }
 
+JNIEXPORT
+jint JNICALL
+Java_org_zeromq_ZMQ_zmq_1send (JNIEnv *env, jclass c, jlong socket, jbyteArray buf, jint offset, jint len, jint flags)
+{
+    jbyte *data = env->GetByteArrayElements (buf, 0);
+    int rc = zmq_send((void *) socket, data + offset, len, flags);
+    return rc;
+}
+
+JNIEXPORT
+jint JNICALL
+Java_org_zeromq_ZMQ_zmq_1recv (JNIEnv *env, jclass c, jlong socket, jbyteArray buf, jint offset, jint len, jint flags)
+{
+    jbyte *data = env->GetByteArrayElements (buf, 0);
+    int rc = zmq_recv((void *) socket, data + offset, len, flags);
+    env->ReleaseByteArrayElements (buf, data, 0);
+    return rc;
+}
