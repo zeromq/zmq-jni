@@ -135,6 +135,7 @@ Java_org_zeromq_ZMQ_zmq_1send (JNIEnv *env, jclass c, jlong socket, jbyteArray b
 {
     jbyte *data = env->GetByteArrayElements (buf, 0);
     int rc = zmq_send((void *) socket, data + offset, len, flags);
+    env->ReleaseByteArrayElements (buf, data, 0);
     return rc;
 }
 
