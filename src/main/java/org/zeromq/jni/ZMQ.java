@@ -1,4 +1,4 @@
-package org.zeromq;
+package org.zeromq.jni;
 
 public final class ZMQ {
     static {
