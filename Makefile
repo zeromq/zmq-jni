@@ -1,6 +1,6 @@
 LIBRARY := libzmqjni.so
 OBJFILES := src/main/c++/zmq.o
-INCLUDES := -fPIC -I$(JAVA_HOME)/include -I$(JAVA_HOME)/include/linux -Itarget/include
+INCLUDES := -Wall -fPIC -I$(JAVA_HOME)/include -I$(JAVA_HOME)/include/linux -Itarget/include -O2
 CXXFLAGS := $(INCLUDES)
 
 $(LIBRARY): $(OBJFILES)
