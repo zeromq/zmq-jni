@@ -20,11 +20,7 @@ Currently I lack a proper build system but this is how I do it manually:
 
 ```bash
 mvn compile
-mkdir -p target/include
-cd target/classes
-javah org.zeromq.jni.ZMQ
-mv org_zeromq_jni_ZMQ.h ../include
-cd ../..
+mvn native:javah
 make
 ```
 
