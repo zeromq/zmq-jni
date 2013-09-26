@@ -153,12 +153,37 @@ JNIEXPORT
 jint JNICALL
 Java_org_zeromq_jni_ZMQ_zmq_1send__JLjava_nio_ByteBuffer_2I (JNIEnv *env, jclass c, jlong socket, jobject buf, jint flags)
 {
-    return -1;
+    jbyte* data = (jbyte*) env->GetDirectBufferAddress(buf);
+    if(data == NULL)
+        return -1;
+    // Cache me
+    jclass cls = env->GetObjectClass(buf);
+    jmethodID limitHandle = env->GetMethodID(cls, "limit", "()I");
+    jmethodID remainingHandle = env->GetMethodID(cls, "remaining", "()I");
+    env->DeleteLocalRef(cls);
+
+    int length = env->CallIntMethod(buf, limitHandle);
+    int offset = env->CallIntMethod(buf, remainingHandle);
+    int rc = zmq_send((void *) socket, data + offset, length, flags);
+
+    return rc;
 }
 
 JNIEXPORT
 jint JNICALL
 Java_org_zeromq_jni_ZMQ_zmq_1recv__JLjava_nio_ByteBuffer_2I (JNIEnv *env, jclass c, jlong socket, jobject buf, jint flags)
 {
-    return -1;
+    jbyte* data = (jbyte*) env->GetDirectBufferAddress(buf);
+    if(data == NULL)
+        return -1;
+    jclass cls = env->GetObjectClass(buf);
+    jmethodID remainingHandle = env->GetMethodID(cls, "remaining", "()I");
+    jmethodID positionHandle = env->GetMethodID(cls, "position", "()I");
+    env->DeleteLocalRef(cls);
+
+    int length = env->CallIntMethod(buf, remainingHandle);
+    int offset = env->CallIntMethod(buf, positionHandle);
+    int rc = zmq_recv((void *) socket, data + offset, length, flags);
+    env->CallVoidMethod(buf, positionHandle, offset + rc);
+    return rc;
 }
