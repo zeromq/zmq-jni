@@ -131,7 +131,7 @@ Java_org_zeromq_jni_ZMQ_zmq_1strerror (JNIEnv *env, jclass c, jint errnum)
 
 JNIEXPORT
 jint JNICALL
-Java_org_zeromq_jni_ZMQ_zmq_1send (JNIEnv *env, jclass c, jlong socket, jbyteArray buf, jint offset, jint len, jint flags)
+Java_org_zeromq_jni_ZMQ_zmq_1send__J_3BIII (JNIEnv *env, jclass c, jlong socket, jbyteArray buf, jint offset, jint len, jint flags)
 {
     jbyte *data = env->GetByteArrayElements (buf, 0);
     int rc = zmq_send((void *) socket, data + offset, len, flags);
@@ -141,10 +141,24 @@ Java_org_zeromq_jni_ZMQ_zmq_1send (JNIEnv *env, jclass c, jlong socket, jbyteArr
 
 JNIEXPORT
 jint JNICALL
-Java_org_zeromq_jni_ZMQ_zmq_1recv (JNIEnv *env, jclass c, jlong socket, jbyteArray buf, jint offset, jint len, jint flags)
+Java_org_zeromq_jni_ZMQ_zmq_1recv__J_3BIII (JNIEnv *env, jclass c, jlong socket, jbyteArray buf, jint offset, jint len, jint flags)
 {
     jbyte *data = env->GetByteArrayElements (buf, 0);
     int rc = zmq_recv((void *) socket, data + offset, len, flags);
     env->ReleaseByteArrayElements (buf, data, 0);
     return rc;
+}
+
+JNIEXPORT
+jint JNICALL
+Java_org_zeromq_jni_ZMQ_zmq_1send__JLjava_nio_ByteBuffer_2I (JNIEnv *env, jclass c, jlong socket, jobject buf, jint flags)
+{
+    return -1;
+}
+
+JNIEXPORT
+jint JNICALL
+Java_org_zeromq_jni_ZMQ_zmq_1recv__JLjava_nio_ByteBuffer_2I (JNIEnv *env, jclass c, jlong socket, jobject buf, jint flags)
+{
+    return -1;
 }
