@@ -1,3 +1,4 @@
+#include <inttypes.h>
 #include "zmq.h"
 #include "org_zeromq_jni_ZMQ.h"
 
@@ -192,19 +193,27 @@ JNIEXPORT
 jint JNICALL
 Java_org_zeromq_jni_ZMQ_zmq_1setsockopt__JII (JNIEnv *env, jclass c, jlong socket, jint option, jint value)
 {
-    return -1;
+    int i = (int) value;
+    int rc = zmq_setsockopt ((void *) socket, option, &i, sizeof(i));
+    return rc;
 }
 
 JNIEXPORT
 jint JNICALL
 Java_org_zeromq_jni_ZMQ_zmq_1setsockopt__JIJ (JNIEnv *env, jclass c, jlong socket, jint option, jlong value)
 {
-    return -1;
+    uint64_t val = (uint64_t) value;
+    int rc = zmq_setsockopt ((void *) socket, option, &val, sizeof(val));
+    return rc;
 }
 
 JNIEXPORT
 jint JNICALL
 Java_org_zeromq_jni_ZMQ_zmq_1setsockopt__JI_3B (JNIEnv *env, jclass c, jlong socket, jint option, jbyteArray value)
 {
-    return -1;
+    jbyte *data = env->GetByteArrayElements (value, 0);
+    size_t size = env->GetArrayLength (value);
+    int rc = zmq_setsockopt ((void *) socket, option, data, size);
+    env->ReleaseByteArrayElements (value, data, 0);
+    return rc;
 }
