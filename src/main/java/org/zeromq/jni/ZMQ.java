@@ -40,4 +40,10 @@ public final class ZMQ {
     public static native int zmq_recv (long socket, byte[] buf, int offset, int len, int flags);
 
     public static native int zmq_recv (long socket, ByteBuffer buf, int flags);
+
+    public static native int zmq_setsockopt (long socket, int option, int value);
+    
+    public static native int zmq_setsockopt (long socket, int option, long value);
+
+    public static native int zmq_setsockopt (long socket, int option, byte[] value);
 }

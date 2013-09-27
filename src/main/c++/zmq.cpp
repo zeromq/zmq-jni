@@ -187,3 +187,24 @@ Java_org_zeromq_jni_ZMQ_zmq_1recv__JLjava_nio_ByteBuffer_2I (JNIEnv *env, jclass
     env->CallVoidMethod(buf, positionHandle, offset + rc);
     return rc;
 }
+
+JNIEXPORT
+jint JNICALL
+Java_org_zeromq_jni_ZMQ_zmq_1setsockopt__JII (JNIEnv *env, jclass c, jlong socket, jint option, jint value)
+{
+    return -1;
+}
+
+JNIEXPORT
+jint JNICALL
+Java_org_zeromq_jni_ZMQ_zmq_1setsockopt__JIJ (JNIEnv *env, jclass c, jlong socket, jint option, jlong value)
+{
+    return -1;
+}
+
+JNIEXPORT
+jint JNICALL
+Java_org_zeromq_jni_ZMQ_zmq_1setsockopt__JI_3B (JNIEnv *env, jclass c, jlong socket, jint option, jbyteArray value)
+{
+    return -1;
+}
