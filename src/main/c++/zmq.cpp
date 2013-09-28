@@ -141,6 +141,20 @@ Java_org_zeromq_jni_ZMQ_zmq_1send__J_3BIII (JNIEnv *env, jclass c, jlong socket,
 }
 
 JNIEXPORT
+jobject JNICALL
+Java_org_zeromq_jni_ZMQ_zmq_1recv__JI (JNIEnv *env, jclass c, jlong socket, jint flags)
+{
+    zmq_msg_t msg;
+    int rc = zmq_msg_init (&msg);
+    rc = zmq_recvmsg ((void *) socket, &msg, flags);
+    int size = zmq_msg_size (&msg);
+    void *data = zmq_msg_data (&msg);
+    jobject buf = env->NewDirectByteBuffer(data, size); 
+    rc = zmq_msg_close(&msg);
+    return buf;
+}
+
+JNIEXPORT
 jint JNICALL
 Java_org_zeromq_jni_ZMQ_zmq_1recv__J_3BIII (JNIEnv *env, jclass c, jlong socket, jbyteArray buf, jint offset, jint len, jint flags)
 {
@@ -193,8 +207,8 @@ JNIEXPORT
 jint JNICALL
 Java_org_zeromq_jni_ZMQ_zmq_1setsockopt__JII (JNIEnv *env, jclass c, jlong socket, jint option, jint value)
 {
-    int i = (int) value;
-    int rc = zmq_setsockopt ((void *) socket, option, &i, sizeof(i));
+    int val = (int) value;
+    int rc = zmq_setsockopt ((void *) socket, option, &val, sizeof(val));
     return rc;
 }
 
