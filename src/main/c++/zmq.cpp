@@ -141,16 +141,16 @@ Java_org_zeromq_jni_ZMQ_zmq_1send__J_3BIII (JNIEnv *env, jclass c, jlong socket,
 }
 
 JNIEXPORT
-jobject JNICALL
+jbyteArray JNICALL
 Java_org_zeromq_jni_ZMQ_zmq_1recv__JI (JNIEnv *env, jclass c, jlong socket, jint flags)
 {
     zmq_msg_t msg;
-    int rc = zmq_msg_init (&msg);
-    rc = zmq_recvmsg ((void *) socket, &msg, flags);
+    zmq_msg_init (&msg);
+    zmq_recvmsg ((void *) socket, &msg, flags);
     int size = zmq_msg_size (&msg);
-    void *data = zmq_msg_data (&msg);
-    jobject buf = env->NewDirectByteBuffer(data, size); 
-    rc = zmq_msg_close(&msg);
+    jbyteArray buf = env->NewByteArray (size);
+    env->SetByteArrayRegion (buf, 0, size, (jbyte*) zmq_msg_data (&msg));
+    zmq_msg_close(&msg);
     return buf;
 }
 

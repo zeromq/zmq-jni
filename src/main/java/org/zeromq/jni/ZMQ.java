@@ -37,7 +37,7 @@ public final class ZMQ {
 
     public static native int zmq_send (long socket, ByteBuffer buf, int flags);
 
-    public static native ByteBuffer zmq_recv (long socket, int flags);
+    public static native byte[] zmq_recv (long socket, int flags);
 
     public static native int zmq_recv (long socket, byte[] buf, int offset, int len, int flags);
 
