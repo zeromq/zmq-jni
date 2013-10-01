@@ -26,7 +26,7 @@ public final class ZMQ {
     public static native boolean zmq_connect (long socket, String endpoint);
 
     public static native boolean zmq_disconnect (long socket, String endpoint);
-    
+
     public static native boolean zmq_close (long socket);
 
     public static native int zmq_errno ();
@@ -44,8 +44,10 @@ public final class ZMQ {
     public static native int zmq_recv (long socket, ByteBuffer buf, int flags);
 
     public static native int zmq_setsockopt (long socket, int option, int value);
-    
+
     public static native int zmq_setsockopt (long socket, int option, long value);
 
     public static native int zmq_setsockopt (long socket, int option, byte[] value);
+
+    public static native int zmq_poll(long items, int count, long timeout);
 }

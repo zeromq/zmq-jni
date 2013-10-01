@@ -231,3 +231,10 @@ Java_org_zeromq_jni_ZMQ_zmq_1setsockopt__JI_3B (JNIEnv *env, jclass c, jlong soc
     env->ReleaseByteArrayElements (value, data, 0);
     return rc;
 }
+
+JNIEXPORT
+jint JNICALL
+Java_org_zeromq_jni_ZMQ_zmq_1poll (JNIEnv *env, jclass c, jlong items, jint count, jlong timeout)
+{
+    return zmq_poll ((zmq_pollitem_t *) items, count, timeout);
+}
