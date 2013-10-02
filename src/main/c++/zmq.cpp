@@ -173,12 +173,12 @@ Java_org_zeromq_jni_ZMQ_zmq_1send__JLjava_nio_ByteBuffer_2I (JNIEnv *env, jclass
         return -1;
     // Cache me
     jclass cls = env->GetObjectClass(buf);
-    jmethodID limitHandle = env->GetMethodID(cls, "limit", "()I");
+    jmethodID positionHandle = env->GetMethodID(cls, "position", "()I");
     jmethodID remainingHandle = env->GetMethodID(cls, "remaining", "()I");
     env->DeleteLocalRef(cls);
 
     int length = env->CallIntMethod(buf, limitHandle);
-    int offset = env->CallIntMethod(buf, remainingHandle);
+    int offset = env->CallIntMethod(buf, positionHandle);
     int rc = zmq_send((void *) socket, data + offset, length, flags);
 
     return rc;
