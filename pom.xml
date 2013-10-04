@@ -99,14 +99,6 @@
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>native-maven-plugin</artifactId>
         <extensions>true</extensions>
-        <executions>
-          <execution>
-            <phase>generate-sources</phase>
-            <goals>
-              <goal>javah</goal>
-            </goals>
-          </execution>
-        </executions>
         <configuration>
           <javahClassNames>
             <javahClassName>org.zeromq.jni.ZMQ</javahClassName>
