@@ -5,5 +5,6 @@ CXXFLAGS := $(INCLUDES)
 
 $(LIBRARY): $(OBJFILES)
 	$(CXX) -shared -o $@ $^ -lzmq
+all: $(LIBRARY)
 clean:
 	rm -f $(LIBRARY) $(OBJFILES)
