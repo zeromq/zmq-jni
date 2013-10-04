@@ -76,7 +76,7 @@ JNIEXPORT
 jboolean JNICALL
 Java_org_zeromq_jni_ZMQ_zmq_1bind (JNIEnv *env, jclass c, jlong socket, jstring endpoint)
 {
-    const char *ep = env->GetStringUTFChars (endpoint, NULL);
+    const char *ep = (const char *) env->GetStringUTFChars (endpoint, NULL);
     int rc = zmq_bind ((void *) socket, ep);
     env->ReleaseStringUTFChars(endpoint, ep);
     if(rc == 0)
@@ -88,7 +88,7 @@ JNIEXPORT
 jboolean JNICALL
 Java_org_zeromq_jni_ZMQ_zmq_1unbind (JNIEnv *env, jclass c, jlong socket, jstring endpoint)
 {
-    const char *ep = env->GetStringUTFChars (endpoint, NULL);
+    const char *ep = (const char *) env->GetStringUTFChars (endpoint, NULL);
     int rc = zmq_unbind ((void *) socket, ep);
     env->ReleaseStringUTFChars(endpoint, ep);
     if(rc == 0)
@@ -113,7 +113,7 @@ JNIEXPORT
 jboolean JNICALL
 Java_org_zeromq_jni_ZMQ_zmq_1disconnect (JNIEnv *env, jclass c, jlong socket, jstring endpoint)
 {
-    const char *ep = env->GetStringUTFChars (endpoint, NULL);
+    const char *ep = (const char *) env->GetStringUTFChars (endpoint, NULL);
     int rc = zmq_disconnect ((void *) socket, ep);
     env->ReleaseStringUTFChars(endpoint, ep);
     if(rc == 0)
