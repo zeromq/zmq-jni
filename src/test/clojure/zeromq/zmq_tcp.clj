@@ -54,3 +54,19 @@
       (.flip bb)
       (.get bb buf)
       (is (= "helloworld" (String. buf))))))
+
+(def send-more 2)
+
+(deftest pub-sub-test
+  (with-open [context (zmq/context)
+              sub (doto (zmq/socket context :sub)
+                     (zmq/connect "tcp://localhost:6001")
+                     (zmq/subscribe (.getBytes "A")))
+              pub (doto (zmq/socket context :pub)
+                     (zmq/bind "tcp://*:6001"))]
+    (Thread/sleep 200)
+    (zmq/send pub (.getBytes "A") send-more)
+    (zmq/send pub (.getBytes "helloworld") 0)
+    (let [_ (zmq/receive sub 0)
+          actual (zmq/receive sub 0)]
+      (is (= "helloworld" (String. actual))))))
