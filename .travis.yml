@@ -3,8 +3,6 @@ before_install:
  - sudo apt-get update -y
  - sudo apt-get install libzmq-dev libpgm-dev
  - mvn compile
- - mvn native:javah
- - make
 language: java
 script: mvn clojure:test
 jdk:
