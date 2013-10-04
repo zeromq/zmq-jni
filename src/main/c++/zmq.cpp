@@ -15,7 +15,7 @@ Java_org_zeromq_jni_ZMQ_zmq_1ctx_1new  (JNIEnv *env, jclass c)
 {
     void *context = zmq_ctx_new();
     if(context)
-        return (long) context;
+        return (jlong) context;
     return -1;
 }
 
@@ -52,7 +52,7 @@ Java_org_zeromq_jni_ZMQ_zmq_1socket (JNIEnv *env, jclass c, jlong context, jint 
 {
     void *socket = zmq_socket((void *) context, type);
     if(socket)
-        return (long) socket;
+        return (jlong) socket;
     return -1;
 }
 
