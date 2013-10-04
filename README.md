@@ -1,5 +1,7 @@
 # zmq-jni
 
+[![Build Status](https://travis-ci.org/trevorbernard/zmq-jni.png)](https://travis-ci.org/trevorbernard/zmq-jni)
+
 Simple High Performance JNI Wrapper for ØMQ
 
 ## Warning
