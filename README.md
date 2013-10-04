@@ -22,6 +22,7 @@ Currently I lack a proper build system but this is how I do it manually:
 mvn compile
 mvn native:javah
 make
+mvn clojure:test
 ```
 
 ## TODO
