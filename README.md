@@ -4,10 +4,6 @@
 
 Simple High Performance JNI Wrapper for ØMQ
 
-## Warning
-
-The project is in an alpha state and will be subject to much change.
-
 ## Motivation
 
 The goal of this project is to simplify and make easy the development of high
