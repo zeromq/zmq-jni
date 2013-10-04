@@ -88,6 +88,7 @@
   (receive
     [this buffer flags]
     [this flags])
+  (receive-bb [this bb flags])
   (connect [this endpoint])
   (bind [this endpoint])
   (subscribe [this topic])
@@ -104,6 +105,8 @@
     (ZMQ/zmq_recv socket-ptr (int flags)))
   (receive [this buffer flags]
     (ZMQ/zmq_recv socket-ptr buffer (int 0) (int (count buffer)) (int flags)))
+  (receive-bb [this bb flags]
+    (ZMQ/zmq_recv socket-ptr ^ByteBuffer bb flags))
   (connect [this endpoint]
     (ZMQ/zmq_connect socket-ptr ^String endpoint))
   (bind [this endpoint]
