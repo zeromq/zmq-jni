@@ -84,6 +84,7 @@
 
 (defprotocol Socket
   (send [this buffer flags])
+  (send-bb [this bb flags])
   (receive
     [this buffer flags]
     [this flags])
@@ -97,6 +98,8 @@
   Socket
   (send [this buffer flags]
     (ZMQ/zmq_send socket-ptr buffer (int 0) (int (count buffer)) (int flags)))
+  (send-bb [this bb flags]
+    (ZMQ/zmq_send socket-ptr ^ByteBuffer bb flags))
   (receive [this flags]
     (ZMQ/zmq_recv socket-ptr (int flags)))
   (receive [this buffer flags]
