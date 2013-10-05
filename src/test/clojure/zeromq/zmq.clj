@@ -108,6 +108,7 @@
   (bind [this endpoint])
   (subscribe [this topic])
   (unsubscribe [this topic])
+  (receive-more? [this])
   (errno [this]))
 
 (defrecord ManagedSocket [^long socket-ptr closed?]
@@ -132,6 +133,8 @@
   (unsubscribe [this topic]
     (let [sockopt (:unsubscribe sock-opts)]
       (ZMQ/zmq_setsockopt socket-ptr (int sockopt) ^bytes topic)))
+  (receive-more? [this]
+      (= 1 (ZMQ/zmq_getsockopt_int socket-ptr (int (:rcvmore sock-opts)))))
   (errno [this]
     (ZMQ/zmq_errno))
   Closeable

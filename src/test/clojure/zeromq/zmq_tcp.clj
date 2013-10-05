@@ -70,3 +70,16 @@
     (let [_ (zmq/receive sub 0)
           actual (zmq/receive sub 0)]
       (is (= "helloworld" (String. actual))))))
+
+(deftest multi-part-test
+  (with-open [context (zmq/context)
+              push (doto (zmq/socket context :push)
+                     (zmq/connect "tcp://localhost:6001"))
+              pull (doto (zmq/socket context :pull)
+                     (zmq/bind "tcp://*:6001"))]
+    (zmq/send push (.getBytes "hello") send-more)
+    (zmq/send push (.getBytes "world") 0)
+    (zmq/receive pull 0)
+    (is (zmq/receive-more? pull))
+    (zmq/receive pull 0)
+    (is (not (zmq/receive-more? pull)))))
