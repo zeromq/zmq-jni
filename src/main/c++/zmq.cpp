@@ -267,6 +267,38 @@ Java_org_zeromq_jni_ZMQ_zmq_1setsockopt__JI_3B (JNIEnv *env, jclass c, jlong soc
 
 JNIEXPORT
 jint JNICALL
+Java_org_zeromq_jni_ZMQ_zmq_1getsockopt_1int (JNIEnv *env, jclass c, jlong socket, jint option)
+{
+    int val;
+    size_t size = sizeof (val);
+    zmq_getsockopt ((void *) socket, option, &val, &size);
+    return val;
+}
+
+JNIEXPORT
+jlong JNICALL
+Java_org_zeromq_jni_ZMQ_zmq_1getsockopt_1long (JNIEnv *env, jclass c, jlong socket, jint option)
+{
+    long val;
+    size_t size = sizeof (val);
+    zmq_getsockopt ((void *) socket, option, &val, &size);
+    return val;
+}
+
+JNIEXPORT
+jbyteArray JNICALL
+Java_org_zeromq_jni_ZMQ_zmq_1getsockopt_1bytes (JNIEnv *env, jclass c, jlong socket, jint option)
+{
+    char val[255];
+    size_t size = 255;
+    zmq_getsockopt ((void *) socket, option, val, &size);
+    jbyteArray buf = env->NewByteArray (size);
+    env->SetByteArrayRegion (buf, 0, size, (jbyte*) val);
+    return buf;
+}
+
+JNIEXPORT
+jint JNICALL
 Java_org_zeromq_jni_ZMQ_zmq_1poll (JNIEnv *env, jclass c, jlong items, jint count, jlong timeout)
 {
     return zmq_poll ((zmq_pollitem_t *) items, count, timeout);

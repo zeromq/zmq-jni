@@ -71,5 +71,11 @@ public final class ZMQ {
 
     public static native int zmq_setsockopt(long socket, int option, byte[] value);
 
+    public static native int zmq_getsockopt_int(long socket, int option);
+
+    public static native long zmq_getsockopt_long(long socket, int option);
+
+    public static native byte[] zmq_getsockopt_bytes(long socket, int option);
+
     public static native int zmq_poll(long items, int count, long timeout);
 }
