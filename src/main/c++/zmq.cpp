@@ -279,7 +279,7 @@ JNIEXPORT
 jlong JNICALL
 Java_org_zeromq_jni_ZMQ_zmq_1getsockopt_1long (JNIEnv *env, jclass c, jlong socket, jint option)
 {
-    long val;
+    uint64_t val;
     size_t size = sizeof (val);
     zmq_getsockopt ((void *) socket, option, &val, &size);
     return val;
