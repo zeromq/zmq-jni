@@ -14,22 +14,20 @@ will underpin libraries such as: [jzmq](https://github.com/zeromq/jzmq),
 
 ## Building
 
-Currently I lack a proper build system but this is how I do it manually:
-
 ```bash
 mvn compile
 mvn clojure:test
 ```
+## Deploy locally
+
+```bash
+mvn install
+```
 
 ## TODO
 
-* Settle on a build system (e.g. grade, maven, etc.)
-
-* Simplify building and deploying native shared libraries. You should be able it
-  include the appropriate dependency for your particular `os.name` and
-  `os.arch`.
-
-* Build 32 and 64 bit libraries for Windows, Linux and Mac OS X
+* Build 32 and 64 bit libraries for Windows, Linux and Mac OS X. Currently I
+  only include Linux/amd64 inside the JAR
 
 ## License
 
