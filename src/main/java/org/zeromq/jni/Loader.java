@@ -39,15 +39,15 @@ public class Loader {
         String osArch = System.getProperty("os.arch");
         String osName = System.getProperty("os.name");
         String libraryName = System.mapLibraryName(library);
-        return osName + File.pathSeparator + osArch + File.pathSeparator + libraryName;
+        return osName + File.separator + osArch + File.separator + libraryName;
     }
 
     private static String bundled(String library) throws IOException {
         InputStream in = null;
         OutputStream out = null;
         try {
-            String libraryName = libraryPath(library);
-            in = Loader.class.getClass().getClassLoader().getResourceAsStream(libraryName);
+            String libraryName = File.separator + libraryPath(library);
+            in = Loader.class.getResourceAsStream(libraryName);
             File tmpDir = new File(System.getProperty("java.io.tmpdir"));
             String s = System.mapLibraryName(library);
             int idx = s.lastIndexOf('.');
