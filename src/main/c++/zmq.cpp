@@ -18,6 +18,23 @@
 #include "zmq.h"
 #include "org_zeromq_jni_ZMQ.h"
 
+static jmethodID limitHandle;
+static jmethodID positionHandle;
+static jmethodID setPositionHandle;
+
+JNIEXPORT
+void JNICALL
+Java_org_zeromq_jni_ZMQ_nativeInit (JNIEnv *env, jclass c)
+{
+    jclass cls = env->FindClass("java/nio/ByteBuffer");
+
+    limitHandle = env->GetMethodID(cls, "limit", "()I");
+    positionHandle = env->GetMethodID(cls, "position", "()I");
+    setPositionHandle = env->GetMethodID(cls, "position", "(I)Ljava/nio/Buffer;");
+
+    env->DeleteLocalRef(cls);
+}
+
 JNIEXPORT
 jint JNICALL
 Java_org_zeromq_jni_ZMQ_version (JNIEnv *env, jclass c)
@@ -187,14 +204,6 @@ Java_org_zeromq_jni_ZMQ_zmq_1send__JLjava_nio_ByteBuffer_2I (JNIEnv *env, jclass
     jbyte* data = (jbyte*) env->GetDirectBufferAddress(buf);
     if(data == NULL)
         return -1;
-    // Cache me
-    jclass cls = env->GetObjectClass(buf);
-
-    jmethodID limitHandle = env->GetMethodID(cls, "limit", "()I");
-    jmethodID positionHandle = env->GetMethodID(cls, "position", "()I");
-    jmethodID setPositionHandle = env->GetMethodID(cls, "position", "(I)Ljava/nio/Buffer;");
-
-    env->DeleteLocalRef(cls);
 
     int lim = env->CallIntMethod(buf, limitHandle);
     int pos = env->CallIntMethod(buf, positionHandle);
@@ -204,6 +213,7 @@ Java_org_zeromq_jni_ZMQ_zmq_1send__JLjava_nio_ByteBuffer_2I (JNIEnv *env, jclass
 
     if (written > 0)
         env->CallVoidMethod(buf, setPositionHandle, pos + written);
+
     return written;
 }
 
@@ -214,23 +224,16 @@ Java_org_zeromq_jni_ZMQ_zmq_1recv__JLjava_nio_ByteBuffer_2I (JNIEnv *env, jclass
     jbyte* data = (jbyte*) env->GetDirectBufferAddress(buf);
     if(data == NULL)
         return -1;
-    // Cache me
-    jclass cls = env->GetObjectClass(buf);
-
-    jmethodID limitHandle = env->GetMethodID(cls, "limit", "()I");
-    jmethodID positionHandle = env->GetMethodID(cls, "position", "()I");
-    jmethodID setPositionHandle = env->GetMethodID(cls, "position", "(I)Ljava/nio/Buffer;");
-
-    env->DeleteLocalRef(cls);
 
     int lim = env->CallIntMethod(buf, limitHandle);
     int pos = env->CallIntMethod(buf, positionHandle);
     int rem = pos <= lim ? lim - pos : 0;
 
-    int received = zmq_recv((void *) socket, data + pos, rem, flags);
-    if (received > 0)
-        env->CallVoidMethod(buf, setPositionHandle, pos + received);
-    return received;
+    int read = zmq_recv((void *) socket, data + pos, rem, flags);
+    if (read > 0)
+        env->CallVoidMethod(buf, setPositionHandle, pos + read);
+
+    return read;
 }
 
 JNIEXPORT

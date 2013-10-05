@@ -23,6 +23,12 @@ public final class ZMQ {
         System.loadLibrary("zmqjni");
     }
 
+    private static native void nativeInit();
+
+    static {
+        nativeInit();
+    }
+
     public static native int version();
 
     public static native long zmq_ctx_new();
