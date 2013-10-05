@@ -39,7 +39,7 @@ public class Loader {
         String osArch = System.getProperty("os.arch");
         String osName = System.getProperty("os.name");
         String libraryName = System.mapLibraryName(library);
-        return osName + "-" + osArch + File.pathSeparator + libraryName;
+        return osName + File.pathSeparator + osArch + File.pathSeparator + libraryName;
     }
 
     private static String bundled(String library) throws IOException {
