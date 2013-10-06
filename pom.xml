@@ -189,6 +189,8 @@
                   <directory>${basedir}/target</directory>
                   <includes>
                     <include>*.so</include>
+                    <include>*.dylib</include>
+                    <include>*.dll</include>
                   </includes>
                 </resource>
               </resources>
