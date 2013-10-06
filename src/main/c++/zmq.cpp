@@ -303,3 +303,157 @@ Java_org_zeromq_jni_ZMQ_zmq_1poll (JNIEnv *env, jclass c, jlong items, jint coun
 {
     return zmq_poll ((zmq_pollitem_t *) items, count, timeout);
 }
+
+JNIEXPORT
+jint JNICALL
+Java_org_zeromq_jni_ZMQ_enotsup (JNIEnv *env, jclass c)
+{
+    return ENOTSUP;
+}
+
+JNIEXPORT
+jint JNICALL
+Java_org_zeromq_jni_ZMQ_eprotonosupport (JNIEnv *env, jclass c)
+{
+    return EPROTONOSUPPORT;
+}
+
+JNIEXPORT
+jint JNICALL
+Java_org_zeromq_jni_ZMQ_enobufs (JNIEnv *env, jclass c)
+{
+    return ENOBUFS;
+}
+
+JNIEXPORT
+jint JNICALL
+Java_org_zeromq_jni_ZMQ_enetdown (JNIEnv *env, jclass c)
+{
+    return ENETDOWN;
+}
+
+JNIEXPORT
+jint JNICALL
+Java_org_zeromq_jni_ZMQ_eaddrinuse (JNIEnv *env, jclass c)
+{
+    return EADDRINUSE;
+}
+
+JNIEXPORT
+jint JNICALL
+Java_org_zeromq_jni_ZMQ_eaddrnotavail (JNIEnv *env, jclass c)
+{
+    return EADDRNOTAVAIL;
+}
+
+JNIEXPORT
+jint JNICALL
+Java_org_zeromq_jni_ZMQ_econnrefused (JNIEnv *env, jclass c)
+{
+    return ECONNREFUSED;
+}
+
+JNIEXPORT
+jint JNICALL
+Java_org_zeromq_jni_ZMQ_einprogress (JNIEnv *env, jclass c)
+{
+    return EINPROGRESS;
+}
+
+JNIEXPORT
+jint JNICALL
+Java_org_zeromq_jni_ZMQ_enotsock (JNIEnv *env, jclass c)
+{
+    return ENOTSOCK;
+}
+
+JNIEXPORT
+jint JNICALL
+Java_org_zeromq_jni_ZMQ_emsgsize (JNIEnv *env, jclass c)
+{
+    return EMSGSIZE;
+}
+
+JNIEXPORT
+jint JNICALL
+Java_org_zeromq_jni_ZMQ_eafnosupport (JNIEnv *env, jclass c)
+{
+    return EAFNOSUPPORT;
+}
+
+JNIEXPORT
+jint JNICALL
+Java_org_zeromq_jni_ZMQ_enetunreach (JNIEnv *env, jclass c)
+{
+    return ENETUNREACH;
+}
+
+JNIEXPORT
+jint JNICALL
+Java_org_zeromq_jni_ZMQ_econnaborted (JNIEnv *env, jclass c)
+{
+    return ECONNABORTED;
+}
+
+JNIEXPORT
+jint JNICALL
+Java_org_zeromq_jni_ZMQ_econnreset (JNIEnv *env, jclass c)
+{
+    return ECONNRESET;
+}
+
+JNIEXPORT
+jint JNICALL
+Java_org_zeromq_jni_ZMQ_enotconn (JNIEnv *env, jclass c)
+{
+    return ENOTCONN;
+}
+
+JNIEXPORT
+jint JNICALL
+Java_org_zeromq_jni_ZMQ_etimedout (JNIEnv *env, jclass c)
+{
+    return ETIMEDOUT;
+}
+
+JNIEXPORT
+jint JNICALL
+Java_org_zeromq_jni_ZMQ_ehostunreach (JNIEnv *env, jclass c)
+{
+    return EHOSTUNREACH;
+}
+
+JNIEXPORT
+jint JNICALL
+Java_org_zeromq_jni_ZMQ_enetreset (JNIEnv *env, jclass c)
+{
+    return ENETRESET;
+}
+
+JNIEXPORT
+jint JNICALL
+Java_org_zeromq_jni_ZMQ_efsm (JNIEnv *env, jclass c)
+{
+    return EFSM;
+}
+
+JNIEXPORT
+jint JNICALL
+Java_org_zeromq_jni_ZMQ_enocompatproto (JNIEnv *env, jclass c)
+{
+    return ENOCOMPATPROTO;
+}
+
+JNIEXPORT
+jint JNICALL
+Java_org_zeromq_jni_ZMQ_eterm (JNIEnv *env, jclass c)
+{
+    return ETERM;
+}
+
+JNIEXPORT
+jint JNICALL
+Java_org_zeromq_jni_ZMQ_emthread (JNIEnv *env, jclass c)
+{
+    return EMTHREAD;
+}

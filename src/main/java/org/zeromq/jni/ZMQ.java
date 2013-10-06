@@ -78,4 +78,95 @@ public final class ZMQ {
     public static native byte[] zmq_getsockopt_bytes(long socket, int option);
 
     public static native int zmq_poll(long items, int count, long timeout);
+
+    // Constants - Errors
+
+    private static native int enotsup();
+
+    public static final int ENOTSUP = enotsup();
+
+    private static native int eprotonosupport();
+
+    public static final int EPROTONOSUPPORT = eprotonosupport();
+
+    private static native int enobufs();
+
+    public static final int ENOBUFS = enobufs();
+
+    private static native int enetdown();
+
+    public static final int ENETDOWN = enetdown();
+
+    private static native int eaddrinuse();
+
+    public static final int EADDRINUSE = eaddrinuse();
+
+    private static native int eaddrnotavail();
+
+    public static final int EADDRNOTAVAIL = eaddrnotavail();
+
+    private static native int econnrefused();
+
+    public static final int ECONNREFUSED = econnrefused();
+
+    private static native int einprogress();
+
+    public static final int EINPROGRESS = einprogress();
+
+    private static native int enotsock();
+
+    public static final int ENOTSOCK = enotsock();
+
+    private static native int emsgsize();
+
+    public static final int EMSGSIZE = emsgsize();
+
+    private static native int eafnosupport();
+
+    public static final int EAFNOSUPPORT = eafnosupport();
+
+    private static native int enetunreach();
+
+    public static final int ENETUNREACH = enetunreach();
+
+    private static native int econnaborted();
+
+    public static final int ECONNABORTED = econnaborted();
+
+    private static native int econnreset();
+
+    public static final int ECONNRESET = econnreset();
+
+    private static native int enotconn();
+
+    public static final int ENOTCONN = enotconn();
+
+    private static native int etimedout();
+
+    public static final int ETIMEDOUT = etimedout();
+
+    private static native int ehostunreach();
+
+    public static final int EHOSTUNREACH = ehostunreach();
+
+    private static native int enetreset();
+
+    public static final int ENETRESET = enetreset();
+
+    private static native int efsm();
+
+    public static final int EFSM = efsm();
+
+    private static native int enocompatproto();
+
+    public static final int ENOCOMPATPROTO = enocompatproto();
+
+    private static native int eterm();
+
+    public static final int ETERM = eterm();
+
+    private static native int emthread();
+
+    public static final int EMTHREAD = emthread();
+
 }
