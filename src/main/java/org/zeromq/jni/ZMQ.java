@@ -79,6 +79,58 @@ public final class ZMQ {
 
     public static native int zmq_poll(long items, int count, long timeout);
 
+    // Constants - Socket Types
+
+    private static native int pair();
+
+    public static final int PAIR = pair();
+
+    private static native int pub();
+
+    public static final int PUB = pub();
+
+    private static native int sub();
+
+    public static final int SUB = sub();
+
+    private static native int req();
+
+    public static final int REQ = req();
+
+    private static native int rep();
+
+    public static final int REP = rep();
+
+    private static native int dealer();
+
+    public static final int DEALER = dealer();
+
+    private static native int router();
+
+    public static final int ROUTER = router();
+
+    private static native int pull();
+
+    public static final int PULL = pull();
+
+    private static native int push();
+
+    public static final int PUSH = push();
+
+    private static native int xpub();
+
+    public static final int XPUB = xpub();
+
+    private static native int xsub();
+
+    public static final int XSUB = xsub();
+
+    // Deprecated aliases
+
+    public static final int XREQ = DEALER;
+
+    public static final int XREP = ROUTER;
+
     // Constants - Errors
 
     private static native int enotsup();

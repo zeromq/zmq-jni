@@ -299,6 +299,83 @@ Java_org_zeromq_jni_ZMQ_zmq_1getsockopt_1bytes (JNIEnv *env, jclass c, jlong soc
 
 JNIEXPORT
 jint JNICALL
+Java_org_zeromq_jni_ZMQ_pair (JNIEnv *env, jclass c)
+{
+    return ZMQ_PAIR;
+}
+
+JNIEXPORT
+jint JNICALL
+Java_org_zeromq_jni_ZMQ_pub (JNIEnv *env, jclass c)
+{
+    return ZMQ_PUB;
+}
+
+JNIEXPORT
+jint JNICALL
+Java_org_zeromq_jni_ZMQ_sub (JNIEnv *env, jclass c)
+{
+    return ZMQ_SUB;
+}
+
+JNIEXPORT
+jint JNICALL
+Java_org_zeromq_jni_ZMQ_req (JNIEnv *env, jclass c)
+{
+    return ZMQ_REQ;
+}
+
+JNIEXPORT
+jint JNICALL
+Java_org_zeromq_jni_ZMQ_rep (JNIEnv *env, jclass c)
+{
+    return ZMQ_REP;
+}
+
+JNIEXPORT
+jint JNICALL
+Java_org_zeromq_jni_ZMQ_dealer (JNIEnv *env, jclass c)
+{
+    return ZMQ_DEALER;
+}
+
+JNIEXPORT
+jint JNICALL
+Java_org_zeromq_jni_ZMQ_router (JNIEnv *env, jclass c)
+{
+    return ZMQ_ROUTER;
+}
+
+JNIEXPORT
+jint JNICALL
+Java_org_zeromq_jni_ZMQ_pull (JNIEnv *env, jclass c)
+{
+    return ZMQ_PULL;
+}
+
+JNIEXPORT
+jint JNICALL
+Java_org_zeromq_jni_ZMQ_push (JNIEnv *env, jclass c)
+{
+    return ZMQ_PUSH;
+}
+
+JNIEXPORT
+jint JNICALL
+Java_org_zeromq_jni_ZMQ_xpub (JNIEnv *env, jclass c)
+{
+    return ZMQ_XPUB;
+}
+
+JNIEXPORT
+jint JNICALL
+Java_org_zeromq_jni_ZMQ_xsub (JNIEnv *env, jclass c)
+{
+    return ZMQ_XSUB;
+}
+
+JNIEXPORT
+jint JNICALL
 Java_org_zeromq_jni_ZMQ_zmq_1poll (JNIEnv *env, jclass c, jlong items, jint count, jlong timeout)
 {
     return zmq_poll ((zmq_pollitem_t *) items, count, timeout);
