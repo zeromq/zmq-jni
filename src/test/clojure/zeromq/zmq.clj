@@ -49,19 +49,19 @@
        (io-threads (int value)))))
 
 (def ^:const socket-types
-  {:pair 0
-   :pub 1
-   :sub 2
-   :req 3
-   :rep 4
-   :dealer 5
-   :router 6
-   :pull 7
-   :push 8
-   :xpub 9
-   :xsub 10
-   :xreq 5
-   :xrep 6})
+  {:pair ZMQ/PAIR
+   :pub ZMQ/PUB
+   :sub ZMQ/SUB
+   :req ZMQ/REQ
+   :rep ZMQ/REP
+   :dealer ZMQ/DEALER
+   :router ZMQ/ROUTER
+   :pull ZMQ/PULL
+   :push ZMQ/PUSH
+   :xpub ZMQ/XPUB
+   :xsub ZMQ/XSUB
+   :xreq ZMQ/XREQ
+   :xrep ZMQ/XREP})
 
 (def ^:const sock-opts
   {:affinity 4
