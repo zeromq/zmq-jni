@@ -20,8 +20,8 @@
            java.nio.ByteBuffer))
 
 (def ^:const context-opts
-  {:zmq-io-threads 1
-   :zmq-max-sockets 2})
+  {:zmq-io-threads ZMQ/IO_THREADS
+   :zmq-max-sockets ZMQ/MAX_SOCKETS})
 
 (defprotocol Context
   (io-threads

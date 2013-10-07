@@ -299,6 +299,20 @@ Java_org_zeromq_jni_ZMQ_zmq_1getsockopt_1bytes (JNIEnv *env, jclass c, jlong soc
 
 JNIEXPORT
 jint JNICALL
+Java_org_zeromq_jni_ZMQ_zmqiothreads (JNIEnv *env, jclass c)
+{
+    return ZMQ_IO_THREADS;
+}
+
+JNIEXPORT
+jint JNICALL
+Java_org_zeromq_jni_ZMQ_zmqmaxsockets (JNIEnv *env, jclass c)
+{
+    return ZMQ_MAX_SOCKETS;
+}
+
+JNIEXPORT
+jint JNICALL
 Java_org_zeromq_jni_ZMQ_pair (JNIEnv *env, jclass c)
 {
     return ZMQ_PAIR;

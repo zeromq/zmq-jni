@@ -78,6 +78,15 @@ public final class ZMQ {
     public static native byte[] zmq_getsockopt_bytes(long socket, int option);
 
     public static native int zmq_poll(long items, int count, long timeout);
+    // Constants - Context options
+
+    private static native int zmqiothreads();
+
+    public static final int IO_THREADS = zmqiothreads();
+
+    private static native int zmqmaxsockets();
+
+    public static final int MAX_SOCKETS = zmqmaxsockets();
 
     // Constants - Socket Types
 
