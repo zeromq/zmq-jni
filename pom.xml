@@ -3,7 +3,7 @@
   <groupId>com.jzeromq</groupId>
   <artifactId>zmq-jni</artifactId>
   <packaging>jar</packaging>
-  <version>0.1.0</version>
+  <version>0.1.1-SNAPSHOT</version>
   <name>zmq-jni</name>
   <description>Simple High Performance JNI Wrapper for ØMQ</description>
   <url>http://maven.apache.org</url>
