@@ -534,3 +534,227 @@ Java_org_zeromq_jni_ZMQ_emthread (JNIEnv *env, jclass c)
 {
     return EMTHREAD;
 }
+
+JNIEXPORT
+jint JNICALL
+Java_org_zeromq_jni_ZMQ_affinity (JNIEnv *env, jclass c)
+{
+    return ZMQ_AFFINITY;
+}
+
+JNIEXPORT
+jint JNICALL
+Java_org_zeromq_jni_ZMQ_identity (JNIEnv *env, jclass c)
+{
+    return ZMQ_IDENTITY;
+}
+
+JNIEXPORT
+jint JNICALL
+Java_org_zeromq_jni_ZMQ_subscribe (JNIEnv *env, jclass c)
+{
+    return ZMQ_SUBSCRIBE;
+}
+
+JNIEXPORT
+jint JNICALL
+Java_org_zeromq_jni_ZMQ_unsubscribe (JNIEnv *env, jclass c)
+{
+    return ZMQ_UNSUBSCRIBE;
+}
+
+JNIEXPORT
+jint JNICALL
+Java_org_zeromq_jni_ZMQ_rate (JNIEnv *env, jclass c)
+{
+    return ZMQ_RATE;
+}
+
+JNIEXPORT
+jint JNICALL
+Java_org_zeromq_jni_ZMQ_recoveryivl (JNIEnv *env, jclass c)
+{
+    return ZMQ_RECOVERY_IVL;
+}
+
+JNIEXPORT
+jint JNICALL
+Java_org_zeromq_jni_ZMQ_sndbuf (JNIEnv *env, jclass c)
+{
+    return ZMQ_SNDBUF;
+}
+
+JNIEXPORT
+jint JNICALL
+Java_org_zeromq_jni_ZMQ_rcvbuf (JNIEnv *env, jclass c)
+{
+    return ZMQ_RCVBUF;
+}
+
+JNIEXPORT
+jint JNICALL
+Java_org_zeromq_jni_ZMQ_rcvmore (JNIEnv *env, jclass c)
+{
+    return ZMQ_RCVMORE;
+}
+
+JNIEXPORT
+jint JNICALL
+Java_org_zeromq_jni_ZMQ_fd (JNIEnv *env, jclass c)
+{
+    return ZMQ_FD;
+}
+
+JNIEXPORT
+jint JNICALL
+Java_org_zeromq_jni_ZMQ_events (JNIEnv *env, jclass c)
+{
+    return ZMQ_EVENTS;
+}
+
+JNIEXPORT
+jint JNICALL
+Java_org_zeromq_jni_ZMQ_type (JNIEnv *env, jclass c)
+{
+    return ZMQ_TYPE;
+}
+
+JNIEXPORT
+jint JNICALL
+Java_org_zeromq_jni_ZMQ_linger (JNIEnv *env, jclass c)
+{
+    return ZMQ_LINGER;
+}
+
+JNIEXPORT
+jint JNICALL
+Java_org_zeromq_jni_ZMQ_reconnectivl (JNIEnv *env, jclass c)
+{
+    return ZMQ_RECONNECT_IVL;
+}
+
+JNIEXPORT
+jint JNICALL
+Java_org_zeromq_jni_ZMQ_backlog (JNIEnv *env, jclass c)
+{
+    return ZMQ_BACKLOG;
+}
+
+JNIEXPORT
+jint JNICALL
+Java_org_zeromq_jni_ZMQ_reconnectivlmax (JNIEnv *env, jclass c)
+{
+    return ZMQ_RECONNECT_IVL_MAX;
+}
+
+JNIEXPORT
+jint JNICALL
+Java_org_zeromq_jni_ZMQ_maxmsgsize (JNIEnv *env, jclass c)
+{
+    return ZMQ_MAXMSGSIZE;
+}
+
+JNIEXPORT
+jint JNICALL
+Java_org_zeromq_jni_ZMQ_sndhwm (JNIEnv *env, jclass c)
+{
+    return ZMQ_SNDHWM;
+}
+
+JNIEXPORT
+jint JNICALL
+Java_org_zeromq_jni_ZMQ_rcvhwm (JNIEnv *env, jclass c)
+{
+    return ZMQ_RCVHWM;
+}
+
+JNIEXPORT
+jint JNICALL
+Java_org_zeromq_jni_ZMQ_multicasthops (JNIEnv *env, jclass c)
+{
+    return ZMQ_MULTICAST_HOPS;
+}
+
+JNIEXPORT
+jint JNICALL
+Java_org_zeromq_jni_ZMQ_rcvtimeo (JNIEnv *env, jclass c)
+{
+    return ZMQ_RCVTIMEO;
+}
+
+JNIEXPORT
+jint JNICALL
+Java_org_zeromq_jni_ZMQ_sndtimeo (JNIEnv *env, jclass c)
+{
+    return ZMQ_SNDTIMEO;
+}
+
+JNIEXPORT
+jint JNICALL
+Java_org_zeromq_jni_ZMQ_ipv4only (JNIEnv *env, jclass c)
+{
+    return ZMQ_IPV4ONLY;
+}
+
+JNIEXPORT
+jint JNICALL
+Java_org_zeromq_jni_ZMQ_lastendpoint (JNIEnv *env, jclass c)
+{
+    return ZMQ_LAST_ENDPOINT;
+}
+
+JNIEXPORT
+jint JNICALL
+Java_org_zeromq_jni_ZMQ_routermandatory (JNIEnv *env, jclass c)
+{
+    return ZMQ_ROUTER_MANDATORY;
+}
+
+JNIEXPORT
+jint JNICALL
+Java_org_zeromq_jni_ZMQ_tcpkeepalive (JNIEnv *env, jclass c)
+{
+    return ZMQ_TCP_KEEPALIVE;
+}
+
+JNIEXPORT
+jint JNICALL
+Java_org_zeromq_jni_ZMQ_tcpkeepalivecnt (JNIEnv *env, jclass c)
+{
+    return ZMQ_TCP_KEEPALIVE_CNT;
+}
+
+JNIEXPORT
+jint JNICALL
+Java_org_zeromq_jni_ZMQ_tcpkeepaliveidle (JNIEnv *env, jclass c)
+{
+    return ZMQ_TCP_KEEPALIVE_IDLE;
+}
+
+JNIEXPORT
+jint JNICALL
+Java_org_zeromq_jni_ZMQ_tcpkeepaliveintvl (JNIEnv *env, jclass c)
+{
+    return ZMQ_TCP_KEEPALIVE_INTVL;
+}
+
+JNIEXPORT
+jint JNICALL
+Java_org_zeromq_jni_ZMQ_tcpacceptfilter (JNIEnv *env, jclass c)
+{
+    return ZMQ_TCP_ACCEPT_FILTER;
+}
+
+JNIEXPORT
+jint JNICALL
+Java_org_zeromq_jni_ZMQ_delayattachonconnect (JNIEnv *env, jclass c)
+{
+    return ZMQ_DELAY_ATTACH_ON_CONNECT;
+}
+
+JNIEXPORT
+jint JNICALL
+Java_org_zeromq_jni_ZMQ_xpubverbose (JNIEnv *env, jclass c)
+{
+    return ZMQ_XPUB_VERBOSE;
+}

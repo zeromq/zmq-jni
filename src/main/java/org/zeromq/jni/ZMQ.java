@@ -221,4 +221,133 @@ public final class ZMQ {
 
     public static final int EMTHREAD = emthread();
 
+    // Constants - Socket options
+
+    private static native int affinity();
+
+    public static final int AFFINITY = affinity();
+
+    private static native int identity();
+
+    public static final int IDENTITY = identity();
+
+    private static native int subscribe();
+
+    public static final int SUBSCRIBE = subscribe();
+
+    private static native int unsubscribe();
+
+    public static final int UNSUBSCRIBTE = unsubscribe();
+
+    private static native int rate();
+
+    public static final int RATE = rate();
+
+    private static native int recoveryivl();
+
+    public static final int RECOVERY_IVL = reconnectivl();
+
+    private static native int sndbuf();
+
+    public static final int SNDBUF = sndbuf();
+
+    private static native int rcvbuf();
+
+    public static final int RCVBUF = rcvbuf();
+
+    private static native int rcvmore();
+
+    public static final int RCVMORE = rcvmore();
+
+    private static native int fd();
+
+    public static final int FC = fd();
+
+    private static native int events();
+
+    public static final int EVENTS = events();
+
+    private static native int type();
+
+    public static final int TYPE = type();
+
+    private static native int linger();
+
+    public static final int LINGER = linger();
+
+    private static native int reconnectivl();
+
+    public static final int RECONNECT_IVL = reconnectivl();
+
+    private static native int backlog();
+
+    public static final int BACKLOG = backlog();
+
+    private static native int reconnectivlmax();
+
+    public static final int RECONNECT_IVL_MAX = reconnectivlmax();
+
+    private static native int maxmsgsize();
+
+    public static final int MAXMSGSIZE = maxmsgsize();
+
+    private static native int sndhwm();
+
+    public static final int SNDHWM = sndhwm();
+
+    private static native int rcvhwm();
+
+    public static final int RCVHWM = rcvhwm();
+
+    private static native int multicasthops();
+
+    public static final int MULTICAST_HOPS = multicasthops();
+
+    private static native int rcvtimeo();
+
+    public static final int RCVTIMEO = rcvtimeo();
+
+    private static native int sndtimeo();
+
+    public static final int SNDTIMEO = sndtimeo();
+
+    private static native int ipv4only();
+
+    public static final int IPV4ONLY = ipv4only();
+
+    private static native int lastendpoint();
+
+    public static final int LAST_ENDPOINT = lastendpoint();
+
+    private static native int routermandatory();
+
+    public static final int ROUTER_MANDATORY = routermandatory();
+
+    private static native int tcpkeepalive();
+
+    public static final int TCP_KEEPALIVE = tcpkeepalive();
+
+    private static native int tcpkeepalivecnt();
+
+    public static final int TCP_KEEPALIVE_CNT = tcpkeepalivecnt();
+
+    private static native int tcpkeepaliveidle();
+
+    public static final int TCP_KEEPALIVE_IDLE = tcpkeepaliveidle();
+
+    private static native int tcpkeepaliveintvl();
+
+    public static final int TCP_KEEPALIVE_INTVL = tcpkeepaliveintvl();
+
+    private static native int tcpacceptfilter();
+
+    public static final int TCP_ACCEPT_FILTER = tcpacceptfilter();
+
+    private static native int delayattachonconnect();
+
+    public static final int DELAY_ATTACH_ON_CONNECT = delayattachonconnect();
+
+    private static native int xpubverbose();
+
+    public static final int XPUB_VERBOSE = xpubverbose();
 }
