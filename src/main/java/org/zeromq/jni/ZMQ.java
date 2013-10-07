@@ -237,7 +237,7 @@ public final class ZMQ {
 
     private static native int unsubscribe();
 
-    public static final int UNSUBSCRIBTE = unsubscribe();
+    public static final int UNSUBSCRIBE = unsubscribe();
 
     private static native int rate();
 
