@@ -261,7 +261,7 @@ public final class ZMQ {
 
     private static native int fd();
 
-    public static final int FC = fd();
+    public static final int FD = fd();
 
     private static native int events();
 
