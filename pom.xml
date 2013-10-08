@@ -135,7 +135,7 @@
             </goals>
             <configuration>
               <javahClassNames>
-                <javahClassName>org.zeromq.jni.ZMQ</javahClassName>
+                <javahClassName>com.jzeromq.jni.ZMQ</javahClassName>
               </javahClassNames>
               <javahOutputDirectory>${project.build.directory}/include</javahOutputDirectory>
             </configuration>

@@ -15,7 +15,7 @@
 
 (ns zeromq.zmq
   (:refer-clojure :exclude [send])
-  (:import org.zeromq.jni.ZMQ
+  (:import com.jzeromq.jni.ZMQ
            java.io.Closeable
            java.nio.ByteBuffer))
 
