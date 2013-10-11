@@ -15,6 +15,7 @@ will underpin libraries such as: [jzmq](https://github.com/zeromq/jzmq),
 ## Building
 
 ```bash
+cmake .
 mvn compile
 mvn clojure:test
 ```
