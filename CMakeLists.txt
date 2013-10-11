@@ -16,5 +16,5 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/target)
 
 add_library(zmqjni SHARED ${CMAKE_SOURCE_DIR}/src/main/c++/zmq.cpp)
 
-find_library(ZMQ_LIB zmq)
-target_link_libraries(zmqjni ${ZMQ_LIB})
+find_library(ZMQ_LIBRARY NAMES zmq libzmq REQUIRED)
+target_link_libraries(zmqjni ${ZMQ_LIBRARY})
