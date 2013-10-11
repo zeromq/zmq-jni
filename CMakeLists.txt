@@ -4,7 +4,7 @@ project(zmqjni CXX Java)
 
 find_package(Java REQUIRED)
 find_package(JNI REQUIRED)
-find_library(ZMQ_LIB libzmq)
+find_library(ZMQ_LIBRARY NAMES zmq libzmq REQUIRED)
 
 include_directories(
   ${JAVA_INCLUDE_PATH}
@@ -16,5 +16,4 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/target)
 
 add_library(zmqjni SHARED ${CMAKE_SOURCE_DIR}/src/main/c++/zmq.cpp)
 
-find_library(ZMQ_LIBRARY NAMES zmq libzmq REQUIRED)
 target_link_libraries(zmqjni ${ZMQ_LIBRARY})
