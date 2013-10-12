@@ -78,6 +78,17 @@ public final class ZMQ {
     public static native byte[] zmq_getsockopt_bytes(long socket, int option);
 
     public static native int zmq_poll(long items, int count, long timeout);
+
+    // Constants Send/recv options
+
+    private static native int sndmore();
+
+    public static final int SNDMORE = sndmore();
+
+    private static native int dontwait();
+
+    public static final int DONTWAIT = dontwait();
+
     // Constants - Context options
 
     private static native int zmqiothreads();

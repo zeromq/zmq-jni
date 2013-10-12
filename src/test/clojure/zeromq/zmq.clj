@@ -23,6 +23,10 @@
   {:io-threads ZMQ/IO_THREADS
    :max-sockets ZMQ/MAX_SOCKETS})
 
+(def ^:const send-more ZMQ/SNDMORE)
+
+(def ^:const dont-wait ZMQ/DONTWAIT)
+
 (defprotocol Context
   (io-threads
     [_]

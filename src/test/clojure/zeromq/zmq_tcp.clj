@@ -80,8 +80,6 @@
       (.get bb buf)
       (is (= "hello" (String. buf))))))
 
-(def send-more 2)
-
 (deftest pub-sub-test
   (with-open [context (zmq/context)
               sub (doto (zmq/socket context :sub)
@@ -90,7 +88,7 @@
               pub (doto (zmq/socket context :pub)
                      (zmq/bind "tcp://*:6001"))]
     (Thread/sleep 200)
-    (send-str pub "A" send-more)
+    (send-str pub "A" zmq/send-more)
     (send-str pub "helloworld")
     (zmq/receive sub 0) ;; eat topic
     (let [actual (receive-str sub)]
@@ -102,7 +100,7 @@
                      (zmq/connect "tcp://localhost:6001"))
               pull (doto (zmq/socket context :pull)
                      (zmq/bind "tcp://*:6001"))]
-    (send-str push "hello" send-more)
+    (send-str push "hello" zmq/send-more)
     (send-str push "world")
     (zmq/receive pull 0)
     (is (zmq/receive-more? pull))

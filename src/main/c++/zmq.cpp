@@ -399,6 +399,20 @@ Java_com_jzeromq_jni_ZMQ_zmq_1poll (JNIEnv *env, jclass c, jlong items, jint cou
 
 JNIEXPORT
 jint JNICALL
+Java_com_jzeromq_jni_ZMQ_sndmore (JNIEnv *env, jclass c)
+{
+    return ZMQ_SNDMORE;
+}
+
+JNIEXPORT
+jint JNICALL
+Java_com_jzeromq_jni_ZMQ_dontwait (JNIEnv *env, jclass c)
+{
+    return ZMQ_DONTWAIT;
+}
+
+JNIEXPORT
+jint JNICALL
 Java_com_jzeromq_jni_ZMQ_enotsup (JNIEnv *env, jclass c)
 {
     return ENOTSUP;
