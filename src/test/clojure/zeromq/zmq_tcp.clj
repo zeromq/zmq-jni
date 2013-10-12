@@ -18,8 +18,16 @@
   (:use clojure.test)
   (:import java.nio.ByteBuffer))
 
-(defn send-str [socket ^String data]
-  (zmq/send socket (.getBytes data)))
+(defn send-str
+  ([socket ^String data]
+     (zmq/send socket (.getBytes data)))
+  ([socket ^String data flags]
+     (zmq/send socket (.getBytes data) (int flags))))
+
+(defn receive-str [socket]
+  (let [data (zmq/receive socket)]
+    (when data
+      (String. data))))
 
 (deftest push-pull-test
   (with-open [context (zmq/context)
@@ -28,8 +36,8 @@
               pull (doto (zmq/socket context :pull)
                      (zmq/bind "tcp://*:6001"))]
     (send-str push "helloworld")
-    (let [buf (zmq/receive pull 0)]
-      (is (= "helloworld" (String. buf))))))
+    (let [actual (receive-str pull)]
+      (is (= "helloworld" actual)))))
 
 (deftest send-bb-test
   (with-open [context (zmq/context)
@@ -41,8 +49,8 @@
                (.put (.getBytes "helloworld"))
                (.flip))]
       (zmq/send-bb push bb))
-    (let [buf (zmq/receive pull 0)]
-      (is (= "helloworld" (String. buf))))))
+    (let [actual (receive-str pull)]
+      (is (= "helloworld" actual)))))
 
 (deftest receive-bb-test
   (with-open [context (zmq/context)
@@ -82,11 +90,11 @@
               pub (doto (zmq/socket context :pub)
                      (zmq/bind "tcp://*:6001"))]
     (Thread/sleep 200)
-    (zmq/send pub (.getBytes "A") send-more)
-    (zmq/send pub (.getBytes "helloworld") 0)
-    (let [_ (zmq/receive sub 0)
-          actual (zmq/receive sub 0)]
-      (is (= "helloworld" (String. actual))))))
+    (send-str pub "A" send-more)
+    (send-str pub "helloworld")
+    (zmq/receive sub 0) ;; eat topic
+    (let [actual (receive-str sub)]
+      (is (= "helloworld" actual)))))
 
 (deftest multi-part-test
   (with-open [context (zmq/context)
@@ -94,8 +102,8 @@
                      (zmq/connect "tcp://localhost:6001"))
               pull (doto (zmq/socket context :pull)
                      (zmq/bind "tcp://*:6001"))]
-    (zmq/send push (.getBytes "hello") send-more)
-    (zmq/send push (.getBytes "world") 0)
+    (send-str push "hello" send-more)
+    (send-str push "world")
     (zmq/receive pull 0)
     (is (zmq/receive-more? pull))
     (zmq/receive pull 0)

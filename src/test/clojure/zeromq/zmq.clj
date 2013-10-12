@@ -114,8 +114,10 @@
     [this bb]
     [this bb flags])
   (receive
+    [this]
     [this flags]
-    [this buffer flags])
+    [this buffer flags]
+    [this buffer off len flags])
   (receive-bb
     [this bb]
     [this bb flags])
@@ -138,10 +140,14 @@
     (ZMQ/zmq_send address ^ByteBuffer bb (int 0)))
   (send-bb [this bb flags]
     (ZMQ/zmq_send address ^ByteBuffer bb flags))
+  (receive [this]
+    (receive this 0))
   (receive [this flags]
-    (ZMQ/zmq_recv address (int 0)))
+    (ZMQ/zmq_recv address (int flags)))
   (receive [this buffer flags]
-    (ZMQ/zmq_recv address buffer (int 0) (int (count buffer)) (int flags)))
+    (receive this buffer 0 (count buffer) flags))
+  (receive [this buffer off len flags]
+    (ZMQ/zmq_recv address buffer (int off) (int len) (int flags)))
   (receive-bb [this bb]
     (ZMQ/zmq_recv address ^ByteBuffer bb (int 0)))
   (receive-bb [this bb flags]
