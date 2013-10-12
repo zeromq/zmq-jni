@@ -18,13 +18,16 @@
   (:use clojure.test)
   (:import java.nio.ByteBuffer))
 
+(defn send-str [socket ^String data]
+  (zmq/send socket (.getBytes data)))
+
 (deftest push-pull-test
   (with-open [context (zmq/context)
               push (doto (zmq/socket context :push)
                      (zmq/connect "tcp://localhost:6001"))
               pull (doto (zmq/socket context :pull)
                      (zmq/bind "tcp://*:6001"))]
-    (zmq/send push (.getBytes "helloworld") 0)
+    (send-str push "helloworld")
     (let [buf (zmq/receive pull 0)]
       (is (= "helloworld" (String. buf))))))
 
@@ -37,7 +40,7 @@
     (let [bb (doto (ByteBuffer/allocateDirect 10)
                (.put (.getBytes "helloworld"))
                (.flip))]
-      (zmq/send-bb push bb 0))
+      (zmq/send-bb push bb))
     (let [buf (zmq/receive pull 0)]
       (is (= "helloworld" (String. buf))))))
 
@@ -47,13 +50,27 @@
                      (zmq/connect "tcp://localhost:6001"))
               pull (doto (zmq/socket context :pull)
                      (zmq/bind "tcp://*:6001"))]
-    (zmq/send push (.getBytes "helloworld") 0)
+    (send-str push "helloworld")
     (let [bb (ByteBuffer/allocateDirect 10)
-          _ (zmq/receive-bb pull bb 0)
+          _ (zmq/receive-bb pull bb)
           buf (byte-array 10)]
       (.flip bb)
       (.get bb buf)
       (is (= "helloworld" (String. buf))))))
+
+(deftest receive-bb-send-bigger-than-receive-buffer-test
+  (with-open [context (zmq/context)
+              push (doto (zmq/socket context :push)
+                     (zmq/connect "tcp://localhost:6001"))
+              pull (doto (zmq/socket context :pull)
+                     (zmq/bind "tcp://*:6001"))]
+    (send-str push "helloworld")
+    (let [bb (ByteBuffer/allocateDirect 5)
+          size (zmq/receive-bb pull bb)
+          buf (byte-array size)]
+      (.flip bb)
+      (.get bb buf)
+      (is (= "hello" (String. buf))))))
 
 (def send-more 2)
 

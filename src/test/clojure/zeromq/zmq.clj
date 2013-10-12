@@ -20,32 +20,40 @@
            java.nio.ByteBuffer))
 
 (def ^:const context-opts
-  {:zmq-io-threads ZMQ/IO_THREADS
-   :zmq-max-sockets ZMQ/MAX_SOCKETS})
+  {:io-threads ZMQ/IO_THREADS
+   :max-sockets ZMQ/MAX_SOCKETS})
 
 (defprotocol Context
   (io-threads
     [_]
+    [_ value])
+  (max-sockets
+    [_]
     [_ value]))
 
-(defrecord ManagedContext [^long context-ptr closed?]
+(defrecord ManagedContext [^long address]
   Context
   (io-threads [this]
-    (let [opt (:zmq-io-threads context-opts)]
-      (ZMQ/zmq_ctx_get context-ptr opt)))
+    (let [opt (:io-threads context-opts)]
+      (ZMQ/zmq_ctx_get address opt)))
   (io-threads [this value]
-    (let [opt (:zmq-io-threads context-opts)]
-      (ZMQ/zmq_ctx_set context-ptr opt (int value))))
+    (let [opt (:io-threads context-opts)]
+      (ZMQ/zmq_ctx_set address opt (int value))))
+  (max-sockets [this]
+    (let [opt (:max-sockets context-opts)]
+      (ZMQ/zmq_ctx_get address opt)))
+  (max-sockets [this value]
+    (let [opt (:max-sockets context-opts)]
+      (ZMQ/zmq_ctx_set address opt (int value))))
   Closeable
   (close [this]
-    (when (compare-and-set! closed? false true)
-      (ZMQ/zmq_ctx_destroy context-ptr))))
+    (ZMQ/zmq_ctx_destroy address)))
 
 (defn context
   ([]
      (context 1))
   ([value]
-     (doto (->ManagedContext (ZMQ/zmq_ctx_new) (atom false))
+     (doto (->ManagedContext (ZMQ/zmq_ctx_new))
        (io-threads (int value)))))
 
 (def ^:const socket-types
@@ -98,12 +106,19 @@
    :xpub-verbose ZMQ/XPUB_VERBOSE})
 
 (defprotocol Socket
-  (send [this buffer flags])
-  (send-bb [this bb flags])
-  (receive
+  (send
+    [this buffer]
     [this buffer flags]
-    [this flags])
-  (receive-bb [this bb flags])
+    [this buffer off len flags])
+  (send-bb
+    [this bb]
+    [this bb flags])
+  (receive
+    [this flags]
+    [this buffer flags])
+  (receive-bb
+    [this bb]
+    [this bb flags])
   (connect [this endpoint])
   (bind [this endpoint])
   (subscribe [this topic])
@@ -111,48 +126,67 @@
   (receive-more? [this])
   (errno [this]))
 
-(defrecord ManagedSocket [^long socket-ptr closed?]
+(defrecord ManagedSocket [^long address]
   Socket
+  (send [this buffer]
+    (send this buffer 0 (count buffer) 0))
   (send [this buffer flags]
-    (ZMQ/zmq_send socket-ptr buffer (int 0) (int (count buffer)) (int flags)))
+    (send this buffer 0 (count buffer) flags))
+  (send [this buffer off len flags]
+    (ZMQ/zmq_send address buffer (int off) (int len) (int flags)))
+  (send-bb [this bb]
+    (ZMQ/zmq_send address ^ByteBuffer bb (int 0)))
   (send-bb [this bb flags]
-    (ZMQ/zmq_send socket-ptr ^ByteBuffer bb flags))
+    (ZMQ/zmq_send address ^ByteBuffer bb flags))
   (receive [this flags]
-    (ZMQ/zmq_recv socket-ptr (int flags)))
+    (ZMQ/zmq_recv address (int 0)))
   (receive [this buffer flags]
-    (ZMQ/zmq_recv socket-ptr buffer (int 0) (int (count buffer)) (int flags)))
+    (ZMQ/zmq_recv address buffer (int 0) (int (count buffer)) (int flags)))
+  (receive-bb [this bb]
+    (ZMQ/zmq_recv address ^ByteBuffer bb (int 0)))
   (receive-bb [this bb flags]
-    (ZMQ/zmq_recv socket-ptr ^ByteBuffer bb flags))
+    (ZMQ/zmq_recv address ^ByteBuffer bb flags))
   (connect [this endpoint]
-    (ZMQ/zmq_connect socket-ptr ^String endpoint))
+    (ZMQ/zmq_connect address ^String endpoint))
   (bind [this endpoint]
-    (ZMQ/zmq_bind socket-ptr ^String endpoint))
+    (ZMQ/zmq_bind address ^String endpoint))
   (subscribe [this topic]
     (let [sockopt (:subscribe sock-opts)]
-      (ZMQ/zmq_setsockopt socket-ptr (int sockopt) ^bytes topic)))
+      (ZMQ/zmq_setsockopt address (int sockopt) ^bytes topic)))
   (unsubscribe [this topic]
     (let [sockopt (:unsubscribe sock-opts)]
-      (ZMQ/zmq_setsockopt socket-ptr (int sockopt) ^bytes topic)))
+      (ZMQ/zmq_setsockopt address (int sockopt) ^bytes topic)))
   (receive-more? [this]
-      (= 1 (ZMQ/zmq_getsockopt_int socket-ptr (int (:rcvmore sock-opts)))))
+    (= 1 (ZMQ/zmq_getsockopt_int address (int (:rcvmore sock-opts)))))
   (errno [this]
     (ZMQ/zmq_errno))
   Closeable
   (close [this]
-    (when (compare-and-set! closed? false true)
-      (ZMQ/zmq_close socket-ptr))))
+    (ZMQ/zmq_close address)))
 
 (defn socket [context socket-type]
   (if-let [type (socket-types socket-type)]
-    (->ManagedSocket (ZMQ/zmq_socket (:context-ptr context) type) (atom false))
+    (->ManagedSocket (ZMQ/zmq_socket (:address context) type))
     (throw (IllegalArgumentException. (format "Unknown socket type: %s" socket-type)))))
 
+(def ^:const poll-types
+  {:pollin 1
+   :pollout 2
+   :pollerr 4})
+
 (defn create-poll-items [& items]
-  (let [size (count items)
-        ^ByteBuffer bb (ByteBuffer/allocateDirect (* size 16))]
-    (doseq [{:keys [socket fd events]} items]
-      (.putLong bb socket)
-      (.putInt bb (or fd 0))
-      (.putShort bb events)
-      (.putShort bb 0))
+  (let [^ByteBuffer bb (ByteBuffer/allocateDirect (* (count items) 16))]
+    (doseq [{:keys [^long socket fd events]} items]
+      (.putLong bb (int (or socket 0)))
+      (.putInt bb (int (or fd 0)))
+      (.putShort bb (short (or events 0)))
+      (.putShort bb (short 0)))
     bb))
+
+(defn check-poll
+  ([poll-items index type]
+     )
+  ([poll-items index type ^long timeout]
+     ))
+
+

@@ -230,9 +230,11 @@ Java_com_jzeromq_jni_ZMQ_zmq_1recv__JLjava_nio_ByteBuffer_2I (JNIEnv *env, jclas
     int rem = pos <= lim ? lim - pos : 0;
 
     int read = zmq_recv((void *) socket, data + pos, rem, flags);
-    if (read > 0)
+    if (read > 0) {
+        read = read > rem ? lim : read;
         env->CallVoidMethod(buf, setPositionHandle, pos + read);
-
+        return read;
+    }
     return read;
 }
 
