@@ -66,7 +66,39 @@
       (.get bb buf)
       (is (= "helloworld" (String. buf))))))
 
-(deftest receive-bb-send-bigger-than-receive-buffer-test
+(deftest receive-bb-positive-position-test
+  (with-open [context (zmq/context)
+              push (doto (zmq/socket context :push)
+                     (zmq/connect "tcp://localhost:6001"))
+              pull (doto (zmq/socket context :pull)
+                     (zmq/bind "tcp://*:6001"))]
+    (send-str push "helloworld")
+    (let [bb (ByteBuffer/allocateDirect 12)
+          _ (.position bb 2)
+          _ (zmq/receive-bb pull bb)
+          buf (byte-array 10)]
+      (.flip bb)
+      (.position bb 2)
+      (.get bb buf)
+      (is (= "helloworld" (String. buf))))))
+
+(deftest receive-bb-positive-position-truncate-test
+  (with-open [context (zmq/context)
+              push (doto (zmq/socket context :push)
+                     (zmq/connect "tcp://localhost:6001"))
+              pull (doto (zmq/socket context :pull)
+                     (zmq/bind "tcp://*:6001"))]
+    (send-str push "helloworld")
+    (let [bb (ByteBuffer/allocateDirect 7)
+          _ (.position bb 2)
+          _ (zmq/receive-bb pull bb)
+          buf (byte-array 5)]
+      (.flip bb)
+      (.position bb 2)
+      (.get bb buf)
+      (is (= "hello" (String. buf))))))
+
+(deftest receive-bb-truncate-test
   (with-open [context (zmq/context)
               push (doto (zmq/socket context :push)
                      (zmq/connect "tcp://localhost:6001"))
