@@ -207,7 +207,7 @@ Java_com_jzeromq_jni_ZMQ_zmq_1send__JLjava_nio_ByteBuffer_2I (JNIEnv *env, jclas
 
     int lim = env->CallIntMethod(buf, limitHandle);
     int pos = env->CallIntMethod(buf, positionHandle);
-    int rem = lim - pos;
+    int rem = pos <= lim ? lim - pos : 0;
 
     int written = zmq_send((void *) socket, data + pos, rem, flags);
 
@@ -227,7 +227,7 @@ Java_com_jzeromq_jni_ZMQ_zmq_1recv__JLjava_nio_ByteBuffer_2I (JNIEnv *env, jclas
 
     int lim = env->CallIntMethod(buf, limitHandle);
     int pos = env->CallIntMethod(buf, positionHandle);
-    int rem = lim - pos;
+    int rem = pos <= lim ? lim - pos : 0;
 
     int read = zmq_recv((void *) socket, data + pos, rem, flags);
     if (read > 0) {
