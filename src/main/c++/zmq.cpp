@@ -301,6 +301,13 @@ Java_com_jzeromq_jni_ZMQ_zmq_1getsockopt_1bytes (JNIEnv *env, jclass c, jlong so
 
 JNIEXPORT
 jint JNICALL
+Java_com_jzeromq_jni_ZMQ_zmq_1poll (JNIEnv *env, jclass c, jlong items, jint count, jlong timeout)
+{
+    return zmq_poll ((zmq_pollitem_t *) items, count, timeout);
+}
+
+JNIEXPORT
+jint JNICALL
 Java_com_jzeromq_jni_ZMQ_zmqiothreads (JNIEnv *env, jclass c)
 {
     return ZMQ_IO_THREADS;
@@ -388,13 +395,6 @@ jint JNICALL
 Java_com_jzeromq_jni_ZMQ_xsub (JNIEnv *env, jclass c)
 {
     return ZMQ_XSUB;
-}
-
-JNIEXPORT
-jint JNICALL
-Java_com_jzeromq_jni_ZMQ_zmq_1poll (JNIEnv *env, jclass c, jlong items, jint count, jlong timeout)
-{
-    return zmq_poll ((zmq_pollitem_t *) items, count, timeout);
 }
 
 JNIEXPORT
