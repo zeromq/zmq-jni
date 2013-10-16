@@ -18,9 +18,9 @@
 #include "zmq.h"
 #include "com_jzeromq_jni_ZMQ.h"
 
-static jmethodID limitHandle;
-static jmethodID positionHandle;
-static jmethodID setPositionHandle;
+static jmethodID limitMID;
+static jmethodID positionMID;
+static jmethodID setPositionMID;
 
 JNIEXPORT
 void JNICALL
@@ -28,9 +28,9 @@ Java_com_jzeromq_jni_ZMQ_nativeInit (JNIEnv *env, jclass c)
 {
     jclass cls = env->FindClass("java/nio/ByteBuffer");
 
-    limitHandle = env->GetMethodID(cls, "limit", "()I");
-    positionHandle = env->GetMethodID(cls, "position", "()I");
-    setPositionHandle = env->GetMethodID(cls, "position", "(I)Ljava/nio/Buffer;");
+    limitMID = env->GetMethodID(cls, "limit", "()I");
+    positionMID = env->GetMethodID(cls, "position", "()I");
+    setPositionMID = env->GetMethodID(cls, "position", "(I)Ljava/nio/Buffer;");
 
     env->DeleteLocalRef(cls);
 }
@@ -205,14 +205,14 @@ Java_com_jzeromq_jni_ZMQ_zmq_1send__JLjava_nio_ByteBuffer_2I (JNIEnv *env, jclas
     if(data == NULL)
         return -1;
 
-    int lim = env->CallIntMethod(buf, limitHandle);
-    int pos = env->CallIntMethod(buf, positionHandle);
+    int lim = env->CallIntMethod(buf, limitMID);
+    int pos = env->CallIntMethod(buf, positionMID);
     int rem = pos <= lim ? lim - pos : 0;
 
     int written = zmq_send((void *) socket, data + pos, rem, flags);
 
     if (written > 0)
-        env->CallVoidMethod(buf, setPositionHandle, pos + written);
+        env->CallVoidMethod(buf, setPositionMID, pos + written);
 
     return written;
 }
@@ -225,14 +225,14 @@ Java_com_jzeromq_jni_ZMQ_zmq_1recv__JLjava_nio_ByteBuffer_2I (JNIEnv *env, jclas
     if(data == NULL)
         return -1;
 
-    int lim = env->CallIntMethod(buf, limitHandle);
-    int pos = env->CallIntMethod(buf, positionHandle);
+    int lim = env->CallIntMethod(buf, limitMID);
+    int pos = env->CallIntMethod(buf, positionMID);
     int rem = pos <= lim ? lim - pos : 0;
 
     int read = zmq_recv((void *) socket, data + pos, rem, flags);
     if (read > 0) {
         read = read > rem ? rem : read;
-        env->CallVoidMethod(buf, setPositionHandle, pos + read);
+        env->CallVoidMethod(buf, setPositionMID, pos + read);
         return read;
     }
     return read;
