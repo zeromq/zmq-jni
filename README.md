@@ -30,6 +30,10 @@ mvn install
 * Build 32 and 64 bit libraries for Windows, Linux and Mac OS X. Currently I
   only include Linux/amd64 inside the JAR
 
+## Acknowledgements
+
+YourKit is kindly supporting ZeroMQ project with its full-featured [Java Profiler](http://www.yourkit.com/java/profiler/index.jsp).
+
 ## License
 
 Copyright © 2013 Trevor Bernard
