@@ -1,4 +1,4 @@
-package com.jzeromq.jni;
+package org.zeromq.jni;
 
 public enum Errno {
     EPERM,

@@ -1,14 +1,14 @@
-package com.jzeromq.perf;
+package org.zeromq.jni.perf;
 
-import static com.jzeromq.jni.ZMQ.PULL;
-import static com.jzeromq.jni.ZMQ.zmq_bind;
-import static com.jzeromq.jni.ZMQ.zmq_close;
-import static com.jzeromq.jni.ZMQ.zmq_ctx_destroy;
-import static com.jzeromq.jni.ZMQ.zmq_ctx_new;
-import static com.jzeromq.jni.ZMQ.zmq_errno;
-import static com.jzeromq.jni.ZMQ.zmq_recv;
-import static com.jzeromq.jni.ZMQ.zmq_socket;
-import static com.jzeromq.jni.ZMQ.zmq_strerror;
+import static org.zeromq.jni.ZMQ.PULL;
+import static org.zeromq.jni.ZMQ.zmq_bind;
+import static org.zeromq.jni.ZMQ.zmq_close;
+import static org.zeromq.jni.ZMQ.zmq_ctx_destroy;
+import static org.zeromq.jni.ZMQ.zmq_ctx_new;
+import static org.zeromq.jni.ZMQ.zmq_errno;
+import static org.zeromq.jni.ZMQ.zmq_recv;
+import static org.zeromq.jni.ZMQ.zmq_socket;
+import static org.zeromq.jni.ZMQ.zmq_strerror;
 
 import java.nio.ByteBuffer;
 

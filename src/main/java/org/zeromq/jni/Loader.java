@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.jzeromq.jni;
+package org.zeromq.jni;
 
 import java.io.File;
 import java.io.FileOutputStream;
