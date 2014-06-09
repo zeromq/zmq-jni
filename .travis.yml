@@ -1,5 +1,4 @@
 before_install:
- - sudo add-apt-repository ppa:trevorbernard/zeromq -y
  - sudo apt-get update -y
  - sudo apt-get install libzmq-dev libpgm-dev
  - cmake .
