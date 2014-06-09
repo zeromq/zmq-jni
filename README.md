@@ -6,7 +6,7 @@ Simple High Performance JNI Wrapper for ØMQ
 
 ## Motivation
 
-The goal of this project is to simplify and make easy the development of high
+The goal of this project is to simplify and ease the development of high
 performance ØMQ binding on the JVM. Ideally when this project stabilizes, it
 will underpin libraries such as: [jzmq](https://github.com/zeromq/jzmq),
 [cljzmq](https://github.com/zeromq/cljzmq) and
