@@ -10,15 +10,11 @@ import java.nio.ByteBuffer;
 
 public final class ZMQ
 {
-    static
-    {
-        Loader.loadLibrary("zmqjni");
-    }
-
     private static native void nativeInit();
 
     static
     {
+        Loader.loadLibrary("zmqjni");
         nativeInit();
     }
 
