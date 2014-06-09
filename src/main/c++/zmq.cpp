@@ -43,9 +43,7 @@ JNIEXPORT jboolean JNICALL
 Java_org_zeromq_jni_ZMQ_zmq_1ctx_1set (JNIEnv *env, jclass c, jlong context, jint name, jint value)
 {
     int rc = zmq_ctx_set((void *) context, name, value);
-    if(rc == 0)
-        return JNI_TRUE;
-    return JNI_FALSE;
+    return rc == 0;
 }
 
 JNIEXPORT jint JNICALL
@@ -58,9 +56,7 @@ JNIEXPORT jboolean JNICALL
 Java_org_zeromq_jni_ZMQ_zmq_1ctx_1destroy (JNIEnv *env, jclass c, jlong context)
 {
     int rc = zmq_ctx_destroy((void *) context);
-    if(rc == 0)
-        return JNI_TRUE;
-    return JNI_FALSE;
+    return rc == 0;
 }
 
 JNIEXPORT jlong JNICALL
@@ -78,9 +74,7 @@ Java_org_zeromq_jni_ZMQ_zmq_1bind (JNIEnv *env, jclass c, jlong socket, jstring 
     const char *ep = (const char *) env->GetStringUTFChars (endpoint, NULL);
     int rc = zmq_bind ((void *) socket, ep);
     env->ReleaseStringUTFChars(endpoint, ep);
-    if(rc == 0)
-        return JNI_TRUE;
-    return JNI_FALSE;
+    return rc == 0;
 }
 
 JNIEXPORT jboolean JNICALL
@@ -89,9 +83,7 @@ Java_org_zeromq_jni_ZMQ_zmq_1unbind (JNIEnv *env, jclass c, jlong socket, jstrin
     const char *ep = (const char *) env->GetStringUTFChars (endpoint, NULL);
     int rc = zmq_unbind ((void *) socket, ep);
     env->ReleaseStringUTFChars(endpoint, ep);
-    if(rc == 0)
-        return JNI_TRUE;
-    return JNI_FALSE;
+    return rc == 0;
 }
 
 
@@ -101,9 +93,7 @@ Java_org_zeromq_jni_ZMQ_zmq_1connect (JNIEnv *env, jclass c, jlong socket, jstri
     const char *ep = env->GetStringUTFChars (endpoint, NULL);
     int rc = zmq_connect ((void *) socket, ep);
     env->ReleaseStringUTFChars(endpoint, ep);
-    if(rc == 0)
-        return JNI_TRUE;
-    return JNI_FALSE;
+    return rc == 0;
 }
 
 JNIEXPORT jboolean JNICALL
@@ -112,18 +102,14 @@ Java_org_zeromq_jni_ZMQ_zmq_1disconnect (JNIEnv *env, jclass c, jlong socket, js
     const char *ep = (const char *) env->GetStringUTFChars (endpoint, NULL);
     int rc = zmq_disconnect ((void *) socket, ep);
     env->ReleaseStringUTFChars(endpoint, ep);
-    if(rc == 0)
-        return JNI_TRUE;
-    return JNI_FALSE;
+    return rc == 0;
 }
 
 JNIEXPORT jboolean JNICALL
 Java_org_zeromq_jni_ZMQ_zmq_1close (JNIEnv *env, jclass c, jlong socket)
 {
     int rc = zmq_close((void *) socket);
-    if(rc == 0)
-        return JNI_TRUE;
-    return JNI_FALSE;
+    return rc == 0;
 }
 
 JNIEXPORT jint JNICALL
