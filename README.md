@@ -36,7 +36,7 @@ YourKit is kindly supporting ZeroMQ project with its full-featured [Java Profile
 
 ## License
 
-Copyright © 2013 Trevor Bernard
+Copyright © 2013-2014 Trevor Bernard
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
