@@ -5,6 +5,7 @@ before_install:
  - ./configure && make check
  - sudo make install
  - sudo ldconfig
+ - cd ..
 install: mvn install --quiet -DskipTests=true -Dgpg.skip=true
 language: java
 script: mvn clojure:test
