@@ -22,30 +22,39 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-public class Loader {
+public class Loader
+{
 
-    private Loader() {
+    private Loader()
+    {
     }
 
-    public static void loadLibrary(String library) {
-        try {
+    public static void loadLibrary(String library)
+    {
+        try
+        {
             System.load(bundled(library));
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             System.loadLibrary(library);
         }
     }
 
-    private static String libraryPath(String library) {
+    private static String libraryPath(String library)
+    {
         String osArch = System.getProperty("os.arch");
         String osName = System.getProperty("os.name");
         String libraryName = System.mapLibraryName(library);
         return osName + File.separator + osArch + File.separator + libraryName;
     }
 
-    private static String bundled(String library) throws IOException {
+    private static String bundled(String library) throws IOException
+    {
         InputStream in = null;
         OutputStream out = null;
-        try {
+        try
+        {
             String libraryName = File.separator + libraryPath(library);
             in = Loader.class.getResourceAsStream(libraryName);
             File tmpDir = new File(System.getProperty("java.io.tmpdir"));
@@ -60,18 +69,27 @@ public class Loader {
             out = new FileOutputStream(file);
             int cnt;
             byte buf[] = new byte[4096];
-            while ((cnt = in.read(buf)) >= 1) {
+            while ((cnt = in.read(buf)) >= 1)
+            {
                 out.write(buf, 0, cnt);
             }
             return file.getAbsolutePath();
-        } finally {
-            try {
+        }
+        finally
+        {
+            try
+            {
                 in.close();
-            } catch (Exception ignore) {
             }
-            try {
+            catch (Exception ignore)
+            {
+            }
+            try
+            {
                 out.close();
-            } catch (Exception ignore) {
+            }
+            catch (Exception ignore)
+            {
             }
         }
     }

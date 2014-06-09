@@ -18,14 +18,17 @@ package org.zeromq.jni;
 
 import java.nio.ByteBuffer;
 
-public final class ZMQ {
-    static {
+public final class ZMQ
+{
+    static
+    {
         Loader.loadLibrary("zmqjni");
     }
 
     private static native void nativeInit();
 
-    static {
+    static
+    {
         nativeInit();
     }
 
