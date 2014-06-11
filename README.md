@@ -30,6 +30,12 @@ mvn install
 * Build 32 and 64 bit libraries for Windows, Linux and Mac OS X. Currently I
   only include Linux/amd64 inside the JAR
 
+## Contributions
+
+zmq-jni uses the
+[C4.1 (Collective Code Construction Contract)](http://rfc.zeromq.org/spec:22)
+process for contributions.
+
 ## Acknowledgements
 
 YourKit is kindly supporting ZeroMQ project with its full-featured [Java Profiler](http://www.yourkit.com/java/profiler/index.jsp).
