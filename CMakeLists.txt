@@ -1,9 +1,18 @@
 cmake_minimum_required (VERSION 2.8)
 
-project(zmqjni CXX Java)
+project(zmqjni CXX)
+enable_language(C)
+
+include (CheckIncludeFiles)
+check_include_files(inttypes.h HAVE_INTTYPES_H)
+check_include_files(stdint.h HAVE_STDINT_H)
 
 find_package(JNI REQUIRED)
 find_library(ZMQ_LIBRARY NAMES zmq libzmq REQUIRED)
+
+configure_file(
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/main/c++/config.hpp.in"
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/main/c++/config.hpp" IMMEDIATE)
 
 include_directories(
   ${JAVA_INCLUDE_PATH}
