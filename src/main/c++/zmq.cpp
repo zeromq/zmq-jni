@@ -139,7 +139,11 @@ Java_org_zeromq_jni_ZMQ_zmq_1recv__JI (JNIEnv *env, jclass c, jlong socket, jint
 {
     zmq_msg_t msg;
     zmq_msg_init (&msg);
-    zmq_recvmsg ((void *) socket, &msg, flags);
+#if ZMQ_VERSION >= ZMQ_MAKE_VERSION(3,0,0)
+    int rc = zmq_recvmsg ((void *) socket, &msg, flags);
+#else
+    int rc = zmq_recv ((void *) socket, &msg, flags);
+#endif
     int size = zmq_msg_size (&msg);
     jbyteArray buf = env->NewByteArray (size);
     env->SetByteArrayRegion (buf, 0, size, (jbyte*) zmq_msg_data (&msg));
