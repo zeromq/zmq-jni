@@ -174,6 +174,9 @@
   (close [this]
     (ZMQ/zmq_close address)))
 
+(defn z85-encode [dest buf]
+  (ZMQ/zmq_z85_encode dest buf))
+
 (defn socket [context socket-type]
   (if-let [type (socket-types socket-type)]
     (->ManagedSocket (ZMQ/zmq_socket (:address context) type))
