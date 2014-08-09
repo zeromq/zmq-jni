@@ -145,3 +145,9 @@
         char-buffer (CharBuffer/allocate 10)]
     (zmq/z85-encode char-buffer raw-bytes)
     (is (= "HelloWorld") (str char-buffer))))
+
+(deftest z85-dencoding-test
+  (let [expected (byte-array (map unchecked-byte [0x86 0x4F 0xD2 0x6F 0xB5 0x59 0xF7 0x5B]))
+        dest (byte-array 8)]
+    (zmq/z85-dencode dest "HelloWorld")
+    (is (java.util.Arrays/equals expected dest))))

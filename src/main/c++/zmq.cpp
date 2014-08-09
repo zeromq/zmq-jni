@@ -294,7 +294,15 @@ Java_org_zeromq_jni_ZMQ_zmq_1z85_1encode (JNIEnv *env, jclass c, jobject dest, j
 JNIEXPORT jboolean JNICALL
 Java_org_zeromq_jni_ZMQ_zmq_1z85_1decode (JNIEnv *env, jclass c, jbyteArray dest, jstring data)
 {
+#if ZMQ_VERSION >= ZMQ_MAKE_VERSION(4,0,0)
+    jbyte *buf = env->GetByteArrayElements (dest, 0);
+    const char *encoded = env->GetStringUTFChars (data, NULL);
+    zmq_z85_decode((uint8_t *) buf, const_cast<char *>(encoded));
+    env->ReleaseByteArrayElements (dest, buf, 0);
+    return true;
+#else
     return false;
+#endif
 }
 
 JNIEXPORT jboolean JNICALL
