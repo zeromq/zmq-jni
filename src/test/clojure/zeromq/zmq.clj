@@ -181,25 +181,3 @@
   (if-let [type (socket-types socket-type)]
     (->ManagedSocket (ZMQ/zmq_socket (:address context) type))
     (throw (IllegalArgumentException. (format "Unknown socket type: %s" socket-type)))))
-
-(def ^:const poll-types
-  {:pollin 1
-   :pollout 2
-   :pollerr 4})
-
-(defn create-poll-items [& items]
-  (let [^ByteBuffer bb (ByteBuffer/allocateDirect (* (count items) 16))]
-    (doseq [{:keys [^long socket fd events]} items]
-      (.putLong bb (int (or socket 0)))
-      (.putInt bb (int (or fd 0)))
-      (.putShort bb (short (or events 0)))
-      (.putShort bb (short 0)))
-    bb))
-
-(defn check-poll
-  ([poll-items index type]
-     )
-  ([poll-items index type ^long timeout]
-     ))
-
-
