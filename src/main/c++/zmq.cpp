@@ -19,15 +19,21 @@ static jmethodID limitMID;
 static jmethodID positionMID;
 static jmethodID setPositionMID;
 
+static jmethodID charBufferPutMID;
+static jmethodID charBufferFlipMID;
+
 JNIEXPORT void JNICALL
 Java_org_zeromq_jni_ZMQ_nativeInit (JNIEnv *env, jclass c)
 {
     jclass cls = env->FindClass("java/nio/ByteBuffer");
-
     limitMID = env->GetMethodID(cls, "limit", "()I");
     positionMID = env->GetMethodID(cls, "position", "()I");
     setPositionMID = env->GetMethodID(cls, "position", "(I)Ljava/nio/Buffer;");
+    env->DeleteLocalRef(cls);
 
+    cls = env->FindClass("java/nio/CharBuffer");
+    charBufferPutMID = env->GetMethodID(cls, "put", "(Ljava/lang/String;)Ljava/nio/CharBuffer;");
+    charBufferFlipMID = env->GetMethodID(cls, "flip", "()Ljava/nio/Buffer;");
     env->DeleteLocalRef(cls);
 }
 
@@ -267,37 +273,32 @@ Java_org_zeromq_jni_ZMQ_zmq_1poll (JNIEnv *env, jclass c, jlong items, jint coun
     return zmq_poll ((zmq_pollitem_t *) items, count, timeout);
 }
 
-JNIEXPORT jstring JNICALL
-Java_org_zeromq_jni_ZMQ_zmq_1z85_1encode (JNIEnv *env, jclass c, jbyteArray data)
+JNIEXPORT jboolean JNICALL
+Java_org_zeromq_jni_ZMQ_zmq_1z85_1encode (JNIEnv *env, jclass c, jobject dest, jbyteArray data)
 {
 #if ZMQ_VERSION >= ZMQ_MAKE_VERSION(4,0,0)
     jbyte *public_key = env->GetByteArrayElements (data, 0);
     size_t size = env->GetArrayLength (data);
     char encoded [41];
-    zmq_z85_encode (encoded, public_key, size);
+    zmq_z85_encode (encoded, (uint8_t *) public_key, size);
     env->ReleaseByteArrayElements (data, public_key, 0);
-    return env->NewStringUTF(str);
+    jstring result = env->NewStringUTF(encoded);
+    env->CallObjectMethod(dest, charBufferPutMID, result);
+    env->CallObjectMethod(dest, charBufferFlipMID);
+    return true;
 #else
-    return NULL;
-#endif
-}
-
-JNIEXPORT jbyteArray JNICALL
-Java_org_zeromq_jni_ZMQ_zmq_1z85_1decode (JNIEnv *env, jclass c, jstring data)
-{
-#if ZMQ_VERSION >= ZMQ_MAKE_VERSION(4,0,0)
-    return NULL;
-#else
-    return NULL;
+    return false;
 #endif
 }
 
 JNIEXPORT jboolean JNICALL
-Java_org_zeromq_jni_ZMQ_zmq_1curve_1keypair (JNIEnv *env, jclass c, jbyteArray public_key, jbyteArray secret_key)
+Java_org_zeromq_jni_ZMQ_zmq_1z85_1decode (JNIEnv *env, jclass c, jbyteArray dest, jstring data)
 {
-#if ZMQ_VERSION >= ZMQ_MAKE_VERSION(4,0,0)
+    return false;
+}
 
-#else
-    return JNI_FALSE;
-#endif
+JNIEXPORT jboolean JNICALL
+Java_org_zeromq_jni_ZMQ_zmq_1curve_1keypair (JNIEnv *env, jclass c, jobject public_key, jobject secret_key)
+{
+    return false;
 }
