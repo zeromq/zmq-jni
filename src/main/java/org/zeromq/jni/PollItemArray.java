@@ -4,7 +4,7 @@ import java.lang.reflect.Field;
 
 import sun.misc.Unsafe;
 
-public final class PollItems
+public final class PollItemArray
 {
     private static final Unsafe unsafe;
     static
@@ -25,13 +25,13 @@ public final class PollItems
     private long address;
     private int length;
 
-    private PollItems()
+    private PollItemArray()
     {
     }
 
-    public static PollItems allocatePollItems(int num)
+    public static PollItemArray allocatePollItems(int num)
     {
-        PollItems items = new PollItems();
+        PollItemArray items = new PollItemArray();
         items.address = unsafe.allocateMemory(PollItem.OBJECT_SIZE * num);
         items.length = num;
         items.flyweight.setObjectOffset(items.address);

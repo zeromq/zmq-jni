@@ -266,3 +266,38 @@ Java_org_zeromq_jni_ZMQ_zmq_1poll (JNIEnv *env, jclass c, jlong items, jint coun
 {
     return zmq_poll ((zmq_pollitem_t *) items, count, timeout);
 }
+
+JNIEXPORT jstring JNICALL
+Java_org_zeromq_jni_ZMQ_zmq_1z85_1encode (JNIEnv *env, jclass c, jbyteArray data)
+{
+#if ZMQ_VERSION >= ZMQ_MAKE_VERSION(4,0,0)
+    jbyte *public_key = env->GetByteArrayElements (data, 0);
+    size_t size = env->GetArrayLength (data);
+    char encoded [41];
+    zmq_z85_encode (encoded, public_key, size);
+    env->ReleaseByteArrayElements (data, public_key, 0);
+    return env->NewStringUTF(str);
+#else
+    return NULL;
+#endif
+}
+
+JNIEXPORT jbyteArray JNICALL
+Java_org_zeromq_jni_ZMQ_zmq_1z85_1decode (JNIEnv *env, jclass c, jstring data)
+{
+#if ZMQ_VERSION >= ZMQ_MAKE_VERSION(4,0,0)
+    return NULL;
+#else
+    return NULL;
+#endif
+}
+
+JNIEXPORT jboolean JNICALL
+Java_org_zeromq_jni_ZMQ_zmq_1curve_1keypair (JNIEnv *env, jclass c, jbyteArray public_key, jbyteArray secret_key)
+{
+#if ZMQ_VERSION >= ZMQ_MAKE_VERSION(4,0,0)
+
+#else
+    return JNI_FALSE;
+#endif
+}

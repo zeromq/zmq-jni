@@ -7,6 +7,7 @@
 package org.zeromq.jni;
 
 import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
 
 public final class ZMQ
 {
@@ -68,16 +69,16 @@ public final class ZMQ
 
     public static native int zmq_poll(long items, int count, long timeout);
 
-    public static int zmq_poll(PollItems items, long timeout)
+    public static int zmq_poll(PollItemArray items, long timeout)
     {
         return zmq_poll(items.address(), items.length(), timeout);
     }
 
-    public static native String zmq_z85_encode(byte[] data);
+    public static native boolean zmq_z85_encode(CharBuffer dest, byte[] data);
 
-    public static native byte[] zmq_z85_decode(String data);
+    public static native boolean zmq_z85_decode(byte[] dest, String data);
     
-    public static native boolean zmq_curve_keypair(byte[] publicKey, byte[] secretKey);
+    public static native boolean zmq_curve_keypair(CharBuffer publicKey, CharBuffer secretKey);
 
     // Constants - Message options
     public static final int MORE = 1;
