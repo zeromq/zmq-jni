@@ -68,295 +68,101 @@ public final class ZMQ
 
     public static native int zmq_poll(long items, int count, long timeout);
 
-    // Constants Send/recv options
+    // Constants - Message options
+    public static final int MORE = 1;
 
-    private static native int sndmore();
+    // Constants - Send/recv options
+    public static final int DONTWAIT = 1;
+    public static final int SNDMORE = 2;
 
-    public static final int SNDMORE = sndmore();
+    // Constants - Security Mechanisms
+    public static final int NULL = 0;
+    public static final int PLAIN = 1;
+    public static final int CURVE = 2;
 
-    private static native int dontwait();
-
-    public static final int DONTWAIT = dontwait();
+    // Constants - Deprecated options and aliases
+    public static final int ZMQ_IPV4ONLY                = 31;
+    public static final int ZMQ_DELAY_ATTACH_ON_CONNECT = IMMEDIATE;
+    public static final int ZMQ_NOBLOCK                 = DONTWAIT;
+    public static final int ZMQ_FAIL_UNROUTABLE         = MANDATORY;
+    public static final int ZMQ_ROUTER_BEHAVIOR         = MANDATORY;
 
     // Constants - Context options
+    public static final int IO_THREADS = 1;
+    public static final int MAX_SOCKETS = 2;
 
-    private static native int zmqiothreads();
-
-    public static final int IO_THREADS = zmqiothreads();
-
-    private static native int zmqmaxsockets();
-
-    public static final int MAX_SOCKETS = zmqmaxsockets();
+    // Constants - Default for new contexts
+    public static final int IO_THREADS_DFLT  = 1;
+    public static final int MAX_SOCKETS_DFLT = 1023;
 
     // Constants - Socket Types
-
-    private static native int pair();
-
-    public static final int PAIR = pair();
-
-    private static native int pub();
-
-    public static final int PUB = pub();
-
-    private static native int sub();
-
-    public static final int SUB = sub();
-
-    private static native int req();
-
-    public static final int REQ = req();
-
-    private static native int rep();
-
-    public static final int REP = rep();
-
-    private static native int dealer();
-
-    public static final int DEALER = dealer();
-
-    private static native int router();
-
-    public static final int ROUTER = router();
-
-    private static native int pull();
-
-    public static final int PULL = pull();
-
-    private static native int push();
-
-    public static final int PUSH = push();
-
-    private static native int xpub();
-
-    public static final int XPUB = xpub();
-
-    private static native int xsub();
-
-    public static final int XSUB = xsub();
+    public static final int PAIR = 0;
+    public static final int PUB = 1;
+    public static final int SUB = 2;
+    public static final int REQ = 3;
+    public static final int REP = 4;
+    public static final int DEALER = 5;
+    public static final int ROUTER = 6;
+    public static final int PULL = 7;
+    public static final int PUSH = 8;
+    public static final int XPUB = 9;
+    public static final int XSUB = 10;
+    public static final int STREAM = 11;
 
     // Deprecated aliases
-
     public static final int XREQ = DEALER;
-
     public static final int XREP = ROUTER;
 
-    // Constants - Errors
-
-    private static native int enotsup();
-
-    public static final int ENOTSUP = enotsup();
-
-    private static native int eprotonosupport();
-
-    public static final int EPROTONOSUPPORT = eprotonosupport();
-
-    private static native int enobufs();
-
-    public static final int ENOBUFS = enobufs();
-
-    private static native int enetdown();
-
-    public static final int ENETDOWN = enetdown();
-
-    private static native int eaddrinuse();
-
-    public static final int EADDRINUSE = eaddrinuse();
-
-    private static native int eaddrnotavail();
-
-    public static final int EADDRNOTAVAIL = eaddrnotavail();
-
-    private static native int econnrefused();
-
-    public static final int ECONNREFUSED = econnrefused();
-
-    private static native int einprogress();
-
-    public static final int EINPROGRESS = einprogress();
-
-    private static native int enotsock();
-
-    public static final int ENOTSOCK = enotsock();
-
-    private static native int emsgsize();
-
-    public static final int EMSGSIZE = emsgsize();
-
-    private static native int eafnosupport();
-
-    public static final int EAFNOSUPPORT = eafnosupport();
-
-    private static native int enetunreach();
-
-    public static final int ENETUNREACH = enetunreach();
-
-    private static native int econnaborted();
-
-    public static final int ECONNABORTED = econnaborted();
-
-    private static native int econnreset();
-
-    public static final int ECONNRESET = econnreset();
-
-    private static native int enotconn();
-
-    public static final int ENOTCONN = enotconn();
-
-    private static native int etimedout();
-
-    public static final int ETIMEDOUT = etimedout();
-
-    private static native int ehostunreach();
-
-    public static final int EHOSTUNREACH = ehostunreach();
-
-    private static native int enetreset();
-
-    public static final int ENETRESET = enetreset();
-
-    private static native int efsm();
-
-    public static final int EFSM = efsm();
-
-    private static native int enocompatproto();
-
-    public static final int ENOCOMPATPROTO = enocompatproto();
-
-    private static native int eterm();
-
-    public static final int ETERM = eterm();
-
-    private static native int emthread();
-
-    public static final int EMTHREAD = emthread();
+    // Constants - I/O multiplexing
+    public static final int POLLIN = 1;
+    public static final int POLLOUT = 2;
+    public static final int POLLERR = 4;
 
     // Constants - Socket options
-
-    private static native int affinity();
-
-    public static final int AFFINITY = affinity();
-
-    private static native int identity();
-
-    public static final int IDENTITY = identity();
-
-    private static native int subscribe();
-
-    public static final int SUBSCRIBE = subscribe();
-
-    private static native int unsubscribe();
-
-    public static final int UNSUBSCRIBE = unsubscribe();
-
-    private static native int rate();
-
-    public static final int RATE = rate();
-
-    private static native int recoveryivl();
-
-    public static final int RECOVERY_IVL = reconnectivl();
-
-    private static native int sndbuf();
-
-    public static final int SNDBUF = sndbuf();
-
-    private static native int rcvbuf();
-
-    public static final int RCVBUF = rcvbuf();
-
-    private static native int rcvmore();
-
-    public static final int RCVMORE = rcvmore();
-
-    private static native int fd();
-
-    public static final int FD = fd();
-
-    private static native int events();
-
-    public static final int EVENTS = events();
-
-    private static native int type();
-
-    public static final int TYPE = type();
-
-    private static native int linger();
-
-    public static final int LINGER = linger();
-
-    private static native int reconnectivl();
-
-    public static final int RECONNECT_IVL = reconnectivl();
-
-    private static native int backlog();
-
-    public static final int BACKLOG = backlog();
-
-    private static native int reconnectivlmax();
-
-    public static final int RECONNECT_IVL_MAX = reconnectivlmax();
-
-    private static native int maxmsgsize();
-
-    public static final int MAXMSGSIZE = maxmsgsize();
-
-    private static native int sndhwm();
-
-    public static final int SNDHWM = sndhwm();
-
-    private static native int rcvhwm();
-
-    public static final int RCVHWM = rcvhwm();
-
-    private static native int multicasthops();
-
-    public static final int MULTICAST_HOPS = multicasthops();
-
-    private static native int rcvtimeo();
-
-    public static final int RCVTIMEO = rcvtimeo();
-
-    private static native int sndtimeo();
-
-    public static final int SNDTIMEO = sndtimeo();
-
-    private static native int ipv4only();
-
-    public static final int IPV4ONLY = ipv4only();
-
-    private static native int lastendpoint();
-
-    public static final int LAST_ENDPOINT = lastendpoint();
-
-    private static native int routermandatory();
-
-    public static final int ROUTER_MANDATORY = routermandatory();
-
-    private static native int tcpkeepalive();
-
-    public static final int TCP_KEEPALIVE = tcpkeepalive();
-
-    private static native int tcpkeepalivecnt();
-
-    public static final int TCP_KEEPALIVE_CNT = tcpkeepalivecnt();
-
-    private static native int tcpkeepaliveidle();
-
-    public static final int TCP_KEEPALIVE_IDLE = tcpkeepaliveidle();
-
-    private static native int tcpkeepaliveintvl();
-
-    public static final int TCP_KEEPALIVE_INTVL = tcpkeepaliveintvl();
-
-    private static native int tcpacceptfilter();
-
-    public static final int TCP_ACCEPT_FILTER = tcpacceptfilter();
-
-    private static native int delayattachonconnect();
-
-    public static final int DELAY_ATTACH_ON_CONNECT = delayattachonconnect();
-
-    private static native int xpubverbose();
-
-    public static final int XPUB_VERBOSE = xpubverbose();
+    public static final int AFFINITY = 4;
+    public static final int IDENTITY = 5;
+    public static final int SUBSCRIBE = 6;
+    public static final int UNSUBSCRIBE = 7;
+    public static final int RATE = 8;
+    public static final int RECOVERY_IVL = 9;
+    public static final int SNDBUF = 11;
+    public static final int RCVBUF = 12;
+    public static final int RCVMORE = 13;
+    public static final int FD = 14;
+    public static final int EVENTS = 15;
+    public static final int TYPE = 16;
+    public static final int LINGER = 17;
+    public static final int RECONNECT_IVL = 18;
+    public static final int BACKLOG = 19;
+    public static final int RECONNECT_IVL_MAX = 21;
+    public static final int MAXMSGSIZE = 22;
+    public static final int SNDHWM = 23;
+    public static final int RCVHWM = 24;
+    public static final int MULTICAST_HOPS = 25;
+    public static final int RCVTIMEO = 27;
+    public static final int SNDTIMEO = 28;
+    public static final int LAST_ENDPOINT = 32;
+    public static final int ROUTER_MANDATORY = 33;
+    public static final int TCP_KEEPALIVE = 34;
+    public static final int TCP_KEEPALIVE_CNT = 35;
+    public static final int TCP_KEEPALIVE_IDLE = 36;
+    public static final int TCP_KEEPALIVE_INTVL = 37;
+    public static final int TCP_ACCEPT_FILTER = 38;
+    public static final int IMMEDIATE = 39;
+    public static final int XPUB_VERBOSE = 40;
+    public static final int ROUTER_RAW = 41;
+    public static final int IPV6 = 42;
+    public static final int MECHANISM = 43;
+    public static final int PLAIN_SERVER = 44;
+    public static final int PLAIN_USERNAME = 45;
+    public static final int PLAIN_PASSWORD = 46;
+    public static final int CURVE_SERVER = 47;
+    public static final int CURVE_PUBLICKEY = 48;
+    public static final int CURVE_SECRETKEY = 49;
+    public static final int CURVE_SERVERKEY = 50;
+    public static final int PROBE_ROUTER = 51;
+    public static final int REQ_CORRELATE = 52;
+    public static final int REQ_RELAXED = 53;
+    public static final int CONFLATE = 54;
+    public static final int ZAP_DOMAIN = 55;
 }
