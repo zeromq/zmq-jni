@@ -80,13 +80,6 @@ public final class ZMQ
     public static final int PLAIN = 1;
     public static final int CURVE = 2;
 
-    // Constants - Deprecated options and aliases
-    public static final int ZMQ_IPV4ONLY                = 31;
-    public static final int ZMQ_DELAY_ATTACH_ON_CONNECT = IMMEDIATE;
-    public static final int ZMQ_NOBLOCK                 = DONTWAIT;
-    public static final int ZMQ_FAIL_UNROUTABLE         = MANDATORY;
-    public static final int ZMQ_ROUTER_BEHAVIOR         = MANDATORY;
-
     // Constants - Context options
     public static final int IO_THREADS = 1;
     public static final int MAX_SOCKETS = 2;
@@ -165,4 +158,11 @@ public final class ZMQ
     public static final int REQ_RELAXED = 53;
     public static final int CONFLATE = 54;
     public static final int ZAP_DOMAIN = 55;
+
+    // Constants - Deprecated options and aliases
+    public static final int IPV4ONLY                = 31;
+    public static final int DELAY_ATTACH_ON_CONNECT = IMMEDIATE;
+    public static final int NOBLOCK                 = DONTWAIT;
+    public static final int FAIL_UNROUTABLE         = ROUTER_MANDATORY;
+    public static final int ROUTER_BEHAVIOR         = ROUTER_MANDATORY;
 }
