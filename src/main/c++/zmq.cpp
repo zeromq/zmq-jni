@@ -306,7 +306,20 @@ Java_org_zeromq_jni_ZMQ_zmq_1z85_1decode (JNIEnv *env, jclass c, jbyteArray dest
 }
 
 JNIEXPORT jboolean JNICALL
-Java_org_zeromq_jni_ZMQ_zmq_1curve_1keypair (JNIEnv *env, jclass c, jobject public_key, jobject secret_key)
+Java_org_zeromq_jni_ZMQ_zmq_1curve_1keypair (JNIEnv *env, jclass c, jobject pub, jobject secret)
 {
+#if ZMQ_VERSION >= ZMQ_MAKE_VERSION(4,0,5)
+    char public_key [41];
+    char secret_key [41];
+    int rc = zmq_curve_keypair (public_key, secret_key);
+    jstring r1 = env->NewStringUTF(public_key);
+    env->CallObjectMethod(pub, charBufferPutMID, r1);
+    env->CallObjectMethod(pub, charBufferFlipMID);
+    jstring r2 = env->NewStringUTF(public_key);
+    env->CallObjectMethod(secret, charBufferPutMID, r2);
+    env->CallObjectMethod(secret, charBufferFlipMID);
+    return rc == 0;
+#else
     return false;
+#endif
 }
