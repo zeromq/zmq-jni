@@ -8,6 +8,10 @@
 #include <inttypes.h>
 #endif
 
+#if defined  HAVE_LIBSODIUM_H
+#include <sodium.h>
+#endif
+
 #include "zmq.h"
 #include "org_zeromq_jni_ZMQ.h"
 

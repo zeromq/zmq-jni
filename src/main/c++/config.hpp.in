@@ -3,3 +3,6 @@
 
 /* Define to 1 if you have the <stdint.h> header file. */
 #cmakedefine HAVE_STDINT_H  @HAVE_STDINT_H@
+
+/* Define to 1 if you have the <sodium.h> header file. */
+#cmakedefine HAVE_LIBSODIUM_H  @HAVE_LIBSODIUM_H@

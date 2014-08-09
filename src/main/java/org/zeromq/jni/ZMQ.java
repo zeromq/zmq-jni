@@ -76,6 +76,8 @@ public final class ZMQ
     public static native String zmq_z85_encode(byte[] data);
 
     public static native byte[] zmq_z85_decode(String data);
+    
+    public static native boolean zmq_curve_keypair(byte[] publicKey, byte[] secretKey);
 
     // Constants - Message options
     public static final int MORE = 1;
