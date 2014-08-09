@@ -51,10 +51,11 @@ public class Loader
             String s = System.mapLibraryName(library);
             int idx = s.lastIndexOf('.');
             File file = null;
-            if (idx >= 0)
+            if (idx >= 0) {
                 file = File.createTempFile(s.substring(0, idx), s.substring(idx), tmpDir);
-            else
+            } else {
                 file = File.createTempFile(s, null, tmpDir);
+            }
             file.deleteOnExit();
             out = new FileOutputStream(file);
             int cnt;

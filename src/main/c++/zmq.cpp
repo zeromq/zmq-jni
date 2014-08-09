@@ -4,10 +4,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#if defined  HAVE_INTTYPES_H
+#include <sodium.h>
 #include <inttypes.h>
-#endif
-
 #include "zmq.h"
 #include "org_zeromq_jni_ZMQ.h"
 
@@ -15,15 +13,21 @@ static jmethodID limitMID;
 static jmethodID positionMID;
 static jmethodID setPositionMID;
 
+static jmethodID charBufferPutMID;
+static jmethodID charBufferFlipMID;
+
 JNIEXPORT void JNICALL
 Java_org_zeromq_jni_ZMQ_nativeInit (JNIEnv *env, jclass c)
 {
     jclass cls = env->FindClass("java/nio/ByteBuffer");
-
     limitMID = env->GetMethodID(cls, "limit", "()I");
     positionMID = env->GetMethodID(cls, "position", "()I");
     setPositionMID = env->GetMethodID(cls, "position", "(I)Ljava/nio/Buffer;");
+    env->DeleteLocalRef(cls);
 
+    cls = env->FindClass("java/nio/CharBuffer");
+    charBufferPutMID = env->GetMethodID(cls, "put", "(Ljava/lang/String;)Ljava/nio/CharBuffer;");
+    charBufferFlipMID = env->GetMethodID(cls, "flip", "()Ljava/nio/Buffer;");
     env->DeleteLocalRef(cls);
 }
 
@@ -263,416 +267,53 @@ Java_org_zeromq_jni_ZMQ_zmq_1poll (JNIEnv *env, jclass c, jlong items, jint coun
     return zmq_poll ((zmq_pollitem_t *) items, count, timeout);
 }
 
-JNIEXPORT jint JNICALL
-Java_org_zeromq_jni_ZMQ_zmqiothreads (JNIEnv *env, jclass c)
-{
-    return ZMQ_IO_THREADS;
-}
-
-JNIEXPORT jint JNICALL
-Java_org_zeromq_jni_ZMQ_zmqmaxsockets (JNIEnv *env, jclass c)
-{
-    return ZMQ_MAX_SOCKETS;
-}
-
-JNIEXPORT jint JNICALL
-Java_org_zeromq_jni_ZMQ_pair (JNIEnv *env, jclass c)
-{
-    return ZMQ_PAIR;
-}
-
-JNIEXPORT jint JNICALL
-Java_org_zeromq_jni_ZMQ_pub (JNIEnv *env, jclass c)
-{
-    return ZMQ_PUB;
-}
-
-JNIEXPORT jint JNICALL
-Java_org_zeromq_jni_ZMQ_sub (JNIEnv *env, jclass c)
-{
-    return ZMQ_SUB;
-}
-
-JNIEXPORT jint JNICALL
-Java_org_zeromq_jni_ZMQ_req (JNIEnv *env, jclass c)
-{
-    return ZMQ_REQ;
-}
-
-JNIEXPORT jint JNICALL
-Java_org_zeromq_jni_ZMQ_rep (JNIEnv *env, jclass c)
-{
-    return ZMQ_REP;
-}
-
-JNIEXPORT jint JNICALL
-Java_org_zeromq_jni_ZMQ_dealer (JNIEnv *env, jclass c)
-{
-    return ZMQ_DEALER;
-}
-
-JNIEXPORT jint JNICALL
-Java_org_zeromq_jni_ZMQ_router (JNIEnv *env, jclass c)
-{
-    return ZMQ_ROUTER;
-}
-
-JNIEXPORT jint JNICALL
-Java_org_zeromq_jni_ZMQ_pull (JNIEnv *env, jclass c)
-{
-    return ZMQ_PULL;
-}
-
-JNIEXPORT jint JNICALL
-Java_org_zeromq_jni_ZMQ_push (JNIEnv *env, jclass c)
-{
-    return ZMQ_PUSH;
-}
-
-JNIEXPORT jint JNICALL
-Java_org_zeromq_jni_ZMQ_xpub (JNIEnv *env, jclass c)
-{
-    return ZMQ_XPUB;
-}
-
-JNIEXPORT jint JNICALL
-Java_org_zeromq_jni_ZMQ_xsub (JNIEnv *env, jclass c)
-{
-    return ZMQ_XSUB;
-}
-
-JNIEXPORT jint JNICALL
-Java_org_zeromq_jni_ZMQ_sndmore (JNIEnv *env, jclass c)
-{
-    return ZMQ_SNDMORE;
-}
-
-JNIEXPORT jint JNICALL
-Java_org_zeromq_jni_ZMQ_dontwait (JNIEnv *env, jclass c)
-{
-    return ZMQ_DONTWAIT;
-}
-
-JNIEXPORT jint JNICALL
-Java_org_zeromq_jni_ZMQ_enotsup (JNIEnv *env, jclass c)
-{
-    return ENOTSUP;
-}
-
-JNIEXPORT jint JNICALL
-Java_org_zeromq_jni_ZMQ_eprotonosupport (JNIEnv *env, jclass c)
-{
-    return EPROTONOSUPPORT;
-}
-
-JNIEXPORT jint JNICALL
-Java_org_zeromq_jni_ZMQ_enobufs (JNIEnv *env, jclass c)
-{
-    return ENOBUFS;
-}
-
-JNIEXPORT jint JNICALL
-Java_org_zeromq_jni_ZMQ_enetdown (JNIEnv *env, jclass c)
-{
-    return ENETDOWN;
-}
-
-JNIEXPORT jint JNICALL
-Java_org_zeromq_jni_ZMQ_eaddrinuse (JNIEnv *env, jclass c)
-{
-    return EADDRINUSE;
-}
-
-JNIEXPORT jint JNICALL
-Java_org_zeromq_jni_ZMQ_eaddrnotavail (JNIEnv *env, jclass c)
-{
-    return EADDRNOTAVAIL;
-}
-
-JNIEXPORT jint JNICALL
-Java_org_zeromq_jni_ZMQ_econnrefused (JNIEnv *env, jclass c)
-{
-    return ECONNREFUSED;
-}
-
-JNIEXPORT jint JNICALL
-Java_org_zeromq_jni_ZMQ_einprogress (JNIEnv *env, jclass c)
-{
-    return EINPROGRESS;
-}
-
-JNIEXPORT jint JNICALL
-Java_org_zeromq_jni_ZMQ_enotsock (JNIEnv *env, jclass c)
-{
-    return ENOTSOCK;
-}
-
-JNIEXPORT jint JNICALL
-Java_org_zeromq_jni_ZMQ_emsgsize (JNIEnv *env, jclass c)
-{
-    return EMSGSIZE;
-}
-
-JNIEXPORT jint JNICALL
-Java_org_zeromq_jni_ZMQ_eafnosupport (JNIEnv *env, jclass c)
-{
-    return EAFNOSUPPORT;
-}
-
-JNIEXPORT jint JNICALL
-Java_org_zeromq_jni_ZMQ_enetunreach (JNIEnv *env, jclass c)
-{
-    return ENETUNREACH;
-}
-
-JNIEXPORT jint JNICALL
-Java_org_zeromq_jni_ZMQ_econnaborted (JNIEnv *env, jclass c)
-{
-    return ECONNABORTED;
-}
-
-JNIEXPORT jint JNICALL
-Java_org_zeromq_jni_ZMQ_econnreset (JNIEnv *env, jclass c)
-{
-    return ECONNRESET;
-}
-
-JNIEXPORT jint JNICALL
-Java_org_zeromq_jni_ZMQ_enotconn (JNIEnv *env, jclass c)
-{
-    return ENOTCONN;
-}
-
-JNIEXPORT jint JNICALL
-Java_org_zeromq_jni_ZMQ_etimedout (JNIEnv *env, jclass c)
-{
-    return ETIMEDOUT;
-}
-
-JNIEXPORT jint JNICALL
-Java_org_zeromq_jni_ZMQ_ehostunreach (JNIEnv *env, jclass c)
-{
-    return EHOSTUNREACH;
-}
-
-JNIEXPORT jint JNICALL
-Java_org_zeromq_jni_ZMQ_enetreset (JNIEnv *env, jclass c)
-{
-    return ENETRESET;
-}
-
-JNIEXPORT jint JNICALL
-Java_org_zeromq_jni_ZMQ_efsm (JNIEnv *env, jclass c)
-{
-    return EFSM;
-}
-
-JNIEXPORT jint JNICALL
-Java_org_zeromq_jni_ZMQ_enocompatproto (JNIEnv *env, jclass c)
-{
-    return ENOCOMPATPROTO;
-}
-
-JNIEXPORT jint JNICALL
-Java_org_zeromq_jni_ZMQ_eterm (JNIEnv *env, jclass c)
-{
-    return ETERM;
-}
-
-JNIEXPORT jint JNICALL
-Java_org_zeromq_jni_ZMQ_emthread (JNIEnv *env, jclass c)
-{
-    return EMTHREAD;
-}
-
-JNIEXPORT jint JNICALL
-Java_org_zeromq_jni_ZMQ_affinity (JNIEnv *env, jclass c)
-{
-    return ZMQ_AFFINITY;
-}
-
-JNIEXPORT jint JNICALL
-Java_org_zeromq_jni_ZMQ_identity (JNIEnv *env, jclass c)
-{
-    return ZMQ_IDENTITY;
-}
-
-JNIEXPORT jint JNICALL
-Java_org_zeromq_jni_ZMQ_subscribe (JNIEnv *env, jclass c)
-{
-    return ZMQ_SUBSCRIBE;
-}
-
-JNIEXPORT jint JNICALL
-Java_org_zeromq_jni_ZMQ_unsubscribe (JNIEnv *env, jclass c)
-{
-    return ZMQ_UNSUBSCRIBE;
-}
-
-JNIEXPORT jint JNICALL
-Java_org_zeromq_jni_ZMQ_rate (JNIEnv *env, jclass c)
-{
-    return ZMQ_RATE;
-}
-
-JNIEXPORT jint JNICALL
-Java_org_zeromq_jni_ZMQ_recoveryivl (JNIEnv *env, jclass c)
-{
-    return ZMQ_RECOVERY_IVL;
-}
-
-JNIEXPORT jint JNICALL
-Java_org_zeromq_jni_ZMQ_sndbuf (JNIEnv *env, jclass c)
-{
-    return ZMQ_SNDBUF;
-}
-
-JNIEXPORT jint JNICALL
-Java_org_zeromq_jni_ZMQ_rcvbuf (JNIEnv *env, jclass c)
-{
-    return ZMQ_RCVBUF;
-}
-
-JNIEXPORT jint JNICALL
-Java_org_zeromq_jni_ZMQ_rcvmore (JNIEnv *env, jclass c)
-{
-    return ZMQ_RCVMORE;
-}
-
-JNIEXPORT jint JNICALL
-Java_org_zeromq_jni_ZMQ_fd (JNIEnv *env, jclass c)
-{
-    return ZMQ_FD;
-}
-
-JNIEXPORT jint JNICALL
-Java_org_zeromq_jni_ZMQ_events (JNIEnv *env, jclass c)
-{
-    return ZMQ_EVENTS;
-}
-
-JNIEXPORT jint JNICALL
-Java_org_zeromq_jni_ZMQ_type (JNIEnv *env, jclass c)
-{
-    return ZMQ_TYPE;
-}
-
-JNIEXPORT jint JNICALL
-Java_org_zeromq_jni_ZMQ_linger (JNIEnv *env, jclass c)
-{
-    return ZMQ_LINGER;
-}
-
-JNIEXPORT jint JNICALL
-Java_org_zeromq_jni_ZMQ_reconnectivl (JNIEnv *env, jclass c)
-{
-    return ZMQ_RECONNECT_IVL;
-}
-
-JNIEXPORT jint JNICALL
-Java_org_zeromq_jni_ZMQ_backlog (JNIEnv *env, jclass c)
-{
-    return ZMQ_BACKLOG;
-}
-
-JNIEXPORT jint JNICALL
-Java_org_zeromq_jni_ZMQ_reconnectivlmax (JNIEnv *env, jclass c)
-{
-    return ZMQ_RECONNECT_IVL_MAX;
-}
-
-JNIEXPORT jint JNICALL
-Java_org_zeromq_jni_ZMQ_maxmsgsize (JNIEnv *env, jclass c)
-{
-    return ZMQ_MAXMSGSIZE;
-}
-
-JNIEXPORT jint JNICALL
-Java_org_zeromq_jni_ZMQ_sndhwm (JNIEnv *env, jclass c)
-{
-    return ZMQ_SNDHWM;
-}
-
-JNIEXPORT jint JNICALL
-Java_org_zeromq_jni_ZMQ_rcvhwm (JNIEnv *env, jclass c)
-{
-    return ZMQ_RCVHWM;
-}
-
-JNIEXPORT jint JNICALL
-Java_org_zeromq_jni_ZMQ_multicasthops (JNIEnv *env, jclass c)
-{
-    return ZMQ_MULTICAST_HOPS;
-}
-
-JNIEXPORT jint JNICALL
-Java_org_zeromq_jni_ZMQ_rcvtimeo (JNIEnv *env, jclass c)
-{
-    return ZMQ_RCVTIMEO;
-}
-
-JNIEXPORT jint JNICALL
-Java_org_zeromq_jni_ZMQ_sndtimeo (JNIEnv *env, jclass c)
-{
-    return ZMQ_SNDTIMEO;
-}
-
-JNIEXPORT jint JNICALL
-Java_org_zeromq_jni_ZMQ_ipv4only (JNIEnv *env, jclass c)
-{
-    return ZMQ_IPV4ONLY;
-}
-
-JNIEXPORT jint JNICALL
-Java_org_zeromq_jni_ZMQ_lastendpoint (JNIEnv *env, jclass c)
-{
-    return ZMQ_LAST_ENDPOINT;
-}
-
-JNIEXPORT jint JNICALL
-Java_org_zeromq_jni_ZMQ_routermandatory (JNIEnv *env, jclass c)
-{
-    return ZMQ_ROUTER_MANDATORY;
-}
-
-JNIEXPORT jint JNICALL
-Java_org_zeromq_jni_ZMQ_tcpkeepalive (JNIEnv *env, jclass c)
-{
-    return ZMQ_TCP_KEEPALIVE;
-}
-
-JNIEXPORT jint JNICALL
-Java_org_zeromq_jni_ZMQ_tcpkeepalivecnt (JNIEnv *env, jclass c)
-{
-    return ZMQ_TCP_KEEPALIVE_CNT;
-}
-
-JNIEXPORT jint JNICALL
-Java_org_zeromq_jni_ZMQ_tcpkeepaliveidle (JNIEnv *env, jclass c)
-{
-    return ZMQ_TCP_KEEPALIVE_IDLE;
-}
-
-JNIEXPORT jint JNICALL
-Java_org_zeromq_jni_ZMQ_tcpkeepaliveintvl (JNIEnv *env, jclass c)
-{
-    return ZMQ_TCP_KEEPALIVE_INTVL;
-}
-
-JNIEXPORT jint JNICALL
-Java_org_zeromq_jni_ZMQ_tcpacceptfilter (JNIEnv *env, jclass c)
-{
-    return ZMQ_TCP_ACCEPT_FILTER;
-}
-
-JNIEXPORT jint JNICALL
-Java_org_zeromq_jni_ZMQ_delayattachonconnect (JNIEnv *env, jclass c)
-{
-    return ZMQ_DELAY_ATTACH_ON_CONNECT;
-}
-
-JNIEXPORT jint JNICALL
-Java_org_zeromq_jni_ZMQ_xpubverbose (JNIEnv *env, jclass c)
-{
-    return ZMQ_XPUB_VERBOSE;
+JNIEXPORT jboolean JNICALL
+Java_org_zeromq_jni_ZMQ_zmq_1z85_1encode (JNIEnv *env, jclass c, jobject dest, jbyteArray data)
+{
+#if ZMQ_VERSION >= ZMQ_MAKE_VERSION(4,0,0)
+    jbyte *public_key = env->GetByteArrayElements (data, 0);
+    size_t size = env->GetArrayLength (data);
+    char encoded [41];
+    zmq_z85_encode (encoded, (uint8_t *) public_key, size);
+    env->ReleaseByteArrayElements (data, public_key, 0);
+    jstring result = env->NewStringUTF(encoded);
+    env->CallObjectMethod(dest, charBufferPutMID, result);
+    env->CallObjectMethod(dest, charBufferFlipMID);
+    return true;
+#else
+    return false;
+#endif
+}
+
+JNIEXPORT jboolean JNICALL
+Java_org_zeromq_jni_ZMQ_zmq_1z85_1decode (JNIEnv *env, jclass c, jbyteArray dest, jstring data)
+{
+#if ZMQ_VERSION >= ZMQ_MAKE_VERSION(4,0,0)
+    jbyte *buf = env->GetByteArrayElements (dest, 0);
+    const char *encoded = env->GetStringUTFChars (data, NULL);
+    zmq_z85_decode((uint8_t *) buf, const_cast<char *>(encoded));
+    env->ReleaseByteArrayElements (dest, buf, 0);
+    return true;
+#else
+    return false;
+#endif
+}
+
+JNIEXPORT jboolean JNICALL
+Java_org_zeromq_jni_ZMQ_zmq_1curve_1keypair (JNIEnv *env, jclass c, jobject pub, jobject secret)
+{
+#if ZMQ_VERSION >= ZMQ_MAKE_VERSION(4,0,5)
+    char public_key [41];
+    char secret_key [41];
+    int rc = zmq_curve_keypair (public_key, secret_key);
+    jstring r1 = env->NewStringUTF(public_key);
+    env->CallObjectMethod(pub, charBufferPutMID, r1);
+    env->CallObjectMethod(pub, charBufferFlipMID);
+    jstring r2 = env->NewStringUTF(public_key);
+    env->CallObjectMethod(secret, charBufferPutMID, r2);
+    env->CallObjectMethod(secret, charBufferFlipMID);
+    return rc == 0;
+#else
+    return false;
+#endif
 }

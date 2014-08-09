@@ -16,7 +16,8 @@
 (ns zeromq.zmq-tcp
   (:require [zeromq.zmq :as zmq])
   (:use clojure.test)
-  (:import java.nio.ByteBuffer))
+  (:import java.nio.ByteBuffer
+           java.nio.CharBuffer))
 
 (defn send-str
   ([socket ^String data]
@@ -138,3 +139,17 @@
     (is (zmq/receive-more? pull))
     (zmq/receive pull 0)
     (is (not (zmq/receive-more? pull)))))
+
+(deftest z85-encoding-test
+  (let [raw-bytes (byte-array (map unchecked-byte [0x86 0x4F 0xD2 0x6F 0xB5 0x59 0xF7 0x5B]))
+        char-buffer (CharBuffer/allocate 10)]
+    (zmq/z85-encode char-buffer raw-bytes)
+    (is (= "HelloWorld") (str char-buffer))))
+
+(deftest z85-decoding-test
+  (let [expected (byte-array (map unchecked-byte [0x86 0x4F 0xD2 0x6F 0xB5 0x59 0xF7 0x5B]))
+        dest (byte-array 8)]
+    (zmq/z85-dencode dest "HelloWorld")
+    (println "Expected:" (apply str (map #(format "%02X " %) expected)))
+    (println "Decoded :" (apply str (map #(format "%02X " %) dest)))
+    (is (java.util.Arrays/equals expected dest))))

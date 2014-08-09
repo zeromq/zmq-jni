@@ -1,16 +1,24 @@
 before_install:
- - git clone git://github.com/zeromq/zeromq3-x.git
- - cd zeromq3-x
+ - git clone git://github.com/jedisct1/libsodium.git
+ - cd libsodium
+ - git checkout 0.6.1
  - ./autogen.sh
- - ./configure && make check
+ - ./configure
+ - sudo make install
+ - sudo ldconfig
+ - cd ..
+ - git clone git://github.com/zeromq/zeromq4-x.git
+ - cd zeromq4-x
+ - git checkout v4.0.4
+ - ./autogen.sh
+ - ./configure
  - sudo make install
  - sudo ldconfig
  - cd ..
  - cmake .
- - mvn compile
 install: mvn install --quiet -DskipTests=true -Dgpg.skip=true
 language: java
-script: mvn clojure:test
+script: mvn compile clojure:test
 jdk:
   - openjdk7
   - openjdk6

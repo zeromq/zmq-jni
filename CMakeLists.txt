@@ -6,6 +6,7 @@ enable_language(C)
 include (CheckIncludeFiles)
 check_include_files(inttypes.h HAVE_INTTYPES_H)
 check_include_files(stdint.h HAVE_STDINT_H)
+check_include_files(sodium.h HAVE_LIBSODIUM_H)
 
 find_package(JNI REQUIRED)
 find_library(ZMQ_LIBRARY NAMES zmq libzmq REQUIRED)
