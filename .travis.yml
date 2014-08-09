@@ -3,14 +3,15 @@ before_install:
  - cd libsodium
  - git checkout 0.6.1
  - ./autogen.sh
- - ./configure && make check
+ - ./configure
  - sudo make install
+ - sudo ldconfig
  - cd ..
  - git clone git://github.com/zeromq/zeromq4-x.git
  - cd zeromq4-x
  - git checkout v4.0.4
  - ./autogen.sh
- - ./configure && make check
+ - ./configure
  - sudo make install
  - sudo ldconfig
  - cd ..
