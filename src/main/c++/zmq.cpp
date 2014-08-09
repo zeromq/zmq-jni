@@ -4,14 +4,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#if defined  HAVE_INTTYPES_H
-#include <inttypes.h>
-#endif
-
 #if defined  HAVE_LIBSODIUM_H
 #include <sodium.h>
 #endif
 
+#include <inttypes.h>
 #include "zmq.h"
 #include "org_zeromq_jni_ZMQ.h"
 
