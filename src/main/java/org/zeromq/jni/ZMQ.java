@@ -68,6 +68,15 @@ public final class ZMQ
 
     public static native int zmq_poll(long items, int count, long timeout);
 
+    public static int zmq_poll(PollItems items, long timeout)
+    {
+        return zmq_poll(items.address(), items.length(), timeout);
+    }
+
+    public static native String zmq_z85_encode(byte[] data);
+
+    public static native byte[] zmq_z85_decode(String data);
+
     // Constants - Message options
     public static final int MORE = 1;
 
