@@ -67,6 +67,16 @@
         </plugin>
       </plugins>
     </pluginManagement>
+    <resources>
+      <resource>
+        <directory>${basedir}/target/classes</directory>
+        <includes>
+          <include>**/*.so</include>
+          <include>**/*.dylib</include>
+          <include>**/*.dll</include>
+        </includes>
+      </resource>
+    </resources>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -193,9 +203,9 @@
                 <resource>
                   <directory>${basedir}/target</directory>
                   <includes>
-                    <include>*.so</include>
-                    <include>*.dylib</include>
-                    <include>*.dll</include>
+                    <include>**/*.so</include>
+                    <include>**/*.dylib</include>
+                    <include>**/*.dll</include>
                   </includes>
                 </resource>
               </resources>
