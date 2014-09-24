@@ -33,9 +33,9 @@
   </parent>
 
   <scm>
-    <connection>scm:git:git@github.com:trevorbernard/zmq-jni.git</connection>
-    <developerConnection>scm:git:git@github.com:trevorbernard/zmq-jni.git</developerConnection>
-    <url>git@github.com:trevorbernard/zmq-jni.git</url>
+    <connection>scm:git:git@github.com:zeromq/zmq-jni.git</connection>
+    <developerConnection>scm:git:git@github.com:zeromq/zmq-jni.git</developerConnection>
+    <url>git@github.com:zeromq/zmq-jni.git</url>
   </scm>
 
   <properties>

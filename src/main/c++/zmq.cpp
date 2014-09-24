@@ -314,6 +314,7 @@ Java_org_zeromq_jni_ZMQ_zmq_1curve_1keypair (JNIEnv *env, jclass c, jobject pub,
     env->CallObjectMethod(secret, charBufferFlipMID);
     return rc == 0;
 #else
+    errno = ENOTSUP;
     return false;
 #endif
 }
