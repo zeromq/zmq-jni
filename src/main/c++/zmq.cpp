@@ -7,6 +7,10 @@
 #include <sodium.h>
 #include <inttypes.h>
 #include "zmq.h"
+// Note: This is really for bacwards compatibility for people stuck on
+// the 4.0.x version.
+// Really should never be needed
+#include "zmq_utils.h"
 #include "org_zeromq_jni_ZMQ.h"
 
 static jmethodID limitMID;
@@ -146,6 +150,7 @@ Java_org_zeromq_jni_ZMQ_zmq_1recv__JI (JNIEnv *env, jclass c, jlong socket, jint
 {
     zmq_msg_t msg;
     zmq_msg_init (&msg);
+    // TODO: This needs error handling
 #if ZMQ_VERSION >= ZMQ_MAKE_VERSION(3,0,0)
     zmq_recvmsg ((void *) socket, &msg, flags);
 #else
@@ -309,7 +314,7 @@ Java_org_zeromq_jni_ZMQ_zmq_1curve_1keypair (JNIEnv *env, jclass c, jobject pub,
     jstring r1 = env->NewStringUTF(public_key);
     env->CallObjectMethod(pub, charBufferPutMID, r1);
     env->CallObjectMethod(pub, charBufferFlipMID);
-    jstring r2 = env->NewStringUTF(public_key);
+    jstring r2 = env->NewStringUTF(secret_key);
     env->CallObjectMethod(secret, charBufferPutMID, r2);
     env->CallObjectMethod(secret, charBufferFlipMID);
     return rc == 0;
