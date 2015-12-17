@@ -7,10 +7,6 @@
 #include <sodium.h>
 #include <inttypes.h>
 #include "zmq.h"
-// Note: This is really for bacwards compatibility for people stuck on
-// the 4.0.x version.
-// Really should never be needed
-#include "zmq_utils.h"
 #include "org_zeromq_jni_ZMQ.h"
 
 static jmethodID limitMID;
