@@ -140,6 +140,13 @@
     (zmq/receive pull 0)
     (is (not (zmq/receive-more? pull)))))
 
+(deftest curve-keypair-basics
+  ;; Q: Should these be 40 or 41?
+  (let [public (CharBuffer/allocate 41)
+        secret (CharBuffer/allocate 41)]
+    (is (zmq/curve-keypair public secret) "Key Pair Generation Failed")
+    (is (not= (into [] public) (into [] secret)))))
+
 (deftest z85-encoding-test
   (let [raw-bytes (byte-array (map unchecked-byte [0x86 0x4F 0xD2 0x6F 0xB5 0x59 0xF7 0x5B]))
         char-buffer (CharBuffer/allocate 10)]

@@ -174,6 +174,9 @@
   (close [this]
     (ZMQ/zmq_close address)))
 
+(defn curve-keypair [public secret]
+  (ZMQ/zmq_curve_keypair public secret))
+
 (defn z85-encode [dest buf]
   (ZMQ/zmq_z85_encode dest buf))
 

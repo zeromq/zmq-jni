@@ -309,7 +309,7 @@ Java_org_zeromq_jni_ZMQ_zmq_1curve_1keypair (JNIEnv *env, jclass c, jobject pub,
     jstring r1 = env->NewStringUTF(public_key);
     env->CallObjectMethod(pub, charBufferPutMID, r1);
     env->CallObjectMethod(pub, charBufferFlipMID);
-    jstring r2 = env->NewStringUTF(public_key);
+    jstring r2 = env->NewStringUTF(secret_key);
     env->CallObjectMethod(secret, charBufferPutMID, r2);
     env->CallObjectMethod(secret, charBufferFlipMID);
     return rc == 0;
